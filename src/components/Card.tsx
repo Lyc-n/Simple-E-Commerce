@@ -1,4 +1,3 @@
-import { ShoppingCartIcon } from '@phosphor-icons/react';
 import ButtonSec from './ButtonSec';
 
 type CardProps = {

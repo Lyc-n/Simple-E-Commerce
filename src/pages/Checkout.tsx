@@ -393,7 +393,7 @@ export default function Checkout() {
 
             {/* Processing Overlay */}
             {isProcessing && (
-                <div className="fixed inset-0 z-[60] bg-surface/95 flex items-center justify-center">
+                <div className="fixed inset-0 z-60 bg-surface/95 flex items-center justify-center">
                     <div className="text-center">
                         <div className="relative w-32 h-32 mx-auto mb-gutter">
                             <div className="absolute inset-0 border-4 border-primary rounded-full animate-ping opacity-20"></div>
@@ -414,7 +414,7 @@ export default function Checkout() {
 
             {/* Digital Receipt Modal */}
             {showReceipt && (
-                <div className="fixed inset-0 z-[70] bg-black/80 flex items-center justify-center p-margin-mobile">
+                <div className="fixed inset-0 z-70 bg-black/80 flex items-center justify-center p-margin-mobile">
                     <div className="bg-surface-container border-2 border-secondary-fixed max-w-md w-full p-gutter rounded-lg relative kick-shadow-gold">
                         <div className="absolute -top-6 -right-6 bg-secondary-fixed text-on-secondary-fixed px-6 py-2 font-black italic text-headline-md rotate-12 shadow-xl border-2 border-on-secondary-fixed">
                             LUNAS
