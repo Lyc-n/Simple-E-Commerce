@@ -49,10 +49,16 @@ export async function loadSnapScript(): Promise<void> {
 }
 
 export async function createTransaction(courier: string, payment: string) {
-    const response = await axios.post(`${API_BASE_URL}/api/midtrans/create-transaction`, {
-        courier,
-        payment,
-    });
+    const response = await axios.post(
+        `${API_BASE_URL}/api/midtrans/create-transaction`,
+        {
+            courier,
+            payment,
+        },
+        {
+            withCredentials: true,
+        }
+    );
 
     return response.data;
 }
