@@ -90,7 +90,7 @@ export default function Auth() {
                                 <div className="space-y-2">
                                     <label
                                         className="block font-label-bold text-lg font-light tracking-wider uppercase text-on-surface-variant"
-                                        for="identity"
+                                        // for="identity"
                                     >
                                         Email or Username
                                     </label>
@@ -106,7 +106,7 @@ export default function Auth() {
                                     <div className="flex justify-between items-center">
                                         <label
                                             className="block font-label-bold text-lg font-light tracking-wider uppercase text-on-surface-variant"
-                                            for="password"
+                                            // for="password"
                                         >
                                             Password
                                         </label>
@@ -144,7 +144,7 @@ export default function Auth() {
                                         <div className="space-y-2">
                                             <label
                                                 className="block font-label-bold text-xl uppercase text-on-surface-variant"
-                                                for="confirm-password"
+                                                // for="confirm-password"
                                             >
                                                 Confirm Password
                                             </label>
