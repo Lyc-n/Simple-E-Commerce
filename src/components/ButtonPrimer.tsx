@@ -7,14 +7,16 @@ type ButtonPrimerProps = {
     showIcon?: boolean;
     icon?: React.ReactNode;
     extraClasses?: string;
+    onClick?: () => void;
     text: string;
 };
 
 export default function ButtonPrimer(props: ButtonPrimerProps) {
-    const { mainColor, accentColor, icon, text, extraClasses, showIcon = true } = props;
+    const { mainColor, accentColor, icon, text, extraClasses, showIcon = true, onClick } = props;
     return (
         <button
             className={`${mainColor || 'bg-surface-bright'} ${accentColor || 'text-white'} ${extraClasses || ''} font-label-bold text-2xl rounded-sm chip-shadow active:scale-97 chip-hover transition-all duration-150 flex items-center gap-2 group`}
+            onClick={onClick}
         >
             {text}
             {showIcon && (

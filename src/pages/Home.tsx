@@ -37,14 +37,20 @@ export default function Home() {
                             <ButtonPrimer
                                 text="BELANJA SEKARANG"
                                 extraClasses="active:bg-primary-container px-8 py-4"
+                                onClick={() => {
+                                    const shopSection = document.getElementById('shopping');
+                                    if (shopSection) {
+                                        shopSection.scrollIntoView({ behavior: 'smooth' });
+                                    }
+                                }}
                             />
                         </div>
                         <div className="hidden md:flex md:col-span-5 justify-end">
                             <div className="relative">
                                 <img
-                                    className="w-full max-w-md drop-shadow-2xl animate-bounce duration-3000 ease-in-out"
+                                    className="w-full scale-130 max-w-md drop-shadow-2xl animate-bounce duration-3000 ease-in-out brightness-85"
                                     data-alt="img..."
-                                    src="/src/assets/cihuyy.jpg"
+                                    src="/Chitato.png"
                                 />
                             </div>
                         </div>
@@ -98,7 +104,7 @@ export default function Home() {
                 </section>
 
                 {/* Flavor Showcase Section */}
-                <section className="py-section-gap bg-background">
+                <section id="shopping" className="py-section-gap bg-background">
                     <div className="w-full px-margin-mobile md:px-gutter max-w-container-max mx-auto">
                         {/* signature cut */}
                         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">

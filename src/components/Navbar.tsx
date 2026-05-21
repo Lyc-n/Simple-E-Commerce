@@ -1,39 +1,62 @@
 import { ShoppingCartIcon, UserCircleIcon } from '@phosphor-icons/react';
+import { NavLink } from 'react-router-dom';
 
 export default function Navbar() {
     return (
         <div className="bg-surface/80 backdrop-blur-md dark:bg-surface/80 docked full-width top-0 sticky z-50 shadow-md border-b border-white/10 h-15">
             <nav className="flex justify-between items-center w-full px-margin-mobile md:px-gutter max-w-container-max mx-auto h-full">
-                <div className="text-4xl mt-1.5 font-headline-md font-black italic text-primary tracking-normal cursor-default">
-                    CHITATO
-                </div>
+                <NavLink to={'/'}>
+                    <div className="group text-4xl mt-1.5 font-headline-md font-black italic text-primary tracking-normal cursor-default">
+                        CHITATO
+                    </div>
+                </NavLink>
                 <div className="md:flex items-center gap-8">
-                    <a
-                        className="text-on-surface hover:text-primary transition-colors font-semibold text-label-bold hover:scale-105 transition-all duration-150"
-                        href="#"
+                    <NavLink
+                        className={({ isActive }) =>
+                            `hover:text-primary transition-all duration-150 font-semibold text-label-bold hover:scale-105 ${isActive ? 'text-primary scale-105 border-b-2 border-primary' : 'text-on-surface'}`
+                        }
+                        to="/shop"
                     >
                         Shop
-                    </a>
-                    <a
-                        className="text-on-surface hover:text-primary transition-colors text-label-bold font-semibold hover:scale-105 transition-all duration-150"
-                        href="#"
+                    </NavLink>
+                    <NavLink
+                        className={({ isActive }) =>
+                            `hover:text-primary transition-all duration-150 font-semibold text-label-bold hover:scale-105 ${isActive ? 'text-primary scale-105 border-b-2 border-primary' : 'text-on-surface'}`
+                        }
+                        to="/flavors"
                     >
                         Flavors
-                    </a>
-                    <a
-                        className="text-on-surface hover:text-primary transition-colors text-label-bold font-semibold hover:scale-105 transition-all duration-150"
-                        href="#"
+                    </NavLink>
+                    <NavLink
+                        className={({ isActive }) =>
+                            `hover:text-primary transition-all duration-150 font-semibold text-label-bold hover:scale-105 ${isActive ? 'text-primary scale-105 border-b-2 border-primary' : 'text-on-surface'}`
+                        }
+                        to="/story"
                     >
                         Story
-                    </a>
+                    </NavLink>
                 </div>
                 <div className="flex items-center gap-4">
-                    <button className="cursor-pointer text-on-surface hover:text-primary transition-all duration-150 active:scale-95">
+                    <NavLink
+                        to="/checkout"
+                        className={({ isActive }) =>
+                            `inline-block cursor-pointer transition-all duration-150 active:scale-95 ${
+                                isActive ? 'text-primary' : 'text-on-surface'
+                            }`
+                        }
+                    >
                         <ShoppingCartIcon size={24} />
-                    </button>
-                    <button className="cursor-pointer text-on-surface hover:text-primary transition-all duration-150 active:scale-95">
+                    </NavLink>
+                    <NavLink
+                        to="/profile"
+                        className={({ isActive }) =>
+                            `inline-block cursor-pointer transition-all duration-150 active:scale-95 ${
+                                isActive ? 'text-primary' : 'text-on-surface'
+                            }`
+                        }
+                    >
                         <UserCircleIcon size={24} />
-                    </button>
+                    </NavLink>
                 </div>
             </nav>
         </div>

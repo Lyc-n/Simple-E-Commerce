@@ -206,13 +206,13 @@ export default function Auth() {
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
                                     <button className="flex items-center justify-center gap-2 py-3 border-2 border-surface-variant rounded-lg hover:border-on-surface transition-all text-on-surface">
-                                        <GoogleLogoIcon size={24} weight='bold'/>
+                                        <GoogleLogoIcon size={24} weight="bold" />
                                         <span className="font-label-bold text-lg font-light tracking-wider uppercase">
                                             Google
                                         </span>
                                     </button>
                                     <button className="flex items-center justify-center gap-2 py-3 border-2 border-surface-variant rounded-lg hover:border-on-surface transition-all text-on-surface">
-                                        <FacebookLogoIcon size={24}/>
+                                        <FacebookLogoIcon size={24} />
                                         <span className="font-label-bold text-lg font-light tracking-wider uppercase">
                                             Facebook
                                         </span>

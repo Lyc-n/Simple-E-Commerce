@@ -1,4 +1,5 @@
 import { ShoppingCartIcon } from '@phosphor-icons/react';
+import ButtonSec from './ButtonSec';
 
 type CardProps = {
     tag: string;
@@ -41,9 +42,7 @@ export default function Card(props: CardProps) {
                     <span className="text-secondary-fixed font-bold text-xl">
                         Rp {price.toLocaleString('id-ID')}
                     </span>
-                    <button className="bg-primary-container flex items-center text-white px-4 gap-2 py-1 font-label-bold text-xl tracking-widest rounded-sm chip-shadow-var active:bg-inverse-primary chip-hover-var transition-all active:scale-95">
-                        BELI <ShoppingCartIcon weight="bold" />
-                    </button>
+                    <ButtonSec />
                 </div>
             </div>
         </div>
