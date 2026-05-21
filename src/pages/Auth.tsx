@@ -63,7 +63,7 @@ export default function Auth() {
         }
     }
 
-    function handleBack () {
+    function handleBack() {
         navigate(-1);
     }
 

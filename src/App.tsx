@@ -1,4 +1,4 @@
-import { BrowserRouter as x, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home';
 import NotFound from './NotFound';
@@ -12,16 +12,22 @@ const App = () => {
         <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/shop" element={<Shop />} />
-            <Route path="/checkout" element={
-                <ProtectedRoute>
-                    <Checkout />
-                </ProtectedRoute>
-            } />
-            <Route path="/profile" element={
-                <ProtectedRoute>
-                    <Profile />
-                </ProtectedRoute>
-            } />
+            <Route
+                path="/checkout"
+                element={
+                    <ProtectedRoute>
+                        <Checkout />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/profile"
+                element={
+                    <ProtectedRoute>
+                        <Profile />
+                    </ProtectedRoute>
+                }
+            />
 
             <Route path="/authentication" element={<Auth />} />
             <Route path="*" element={<NotFound />} />
