@@ -2,7 +2,17 @@ import { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { loadSnapScript, createTransaction } from '../services/midtrans';
-import { ArrowRightIcon, BankIcon, CheckCircleIcon, LockIcon, MoneyIcon, MopedIcon, SpinnerGapIcon, TruckIcon, WalletIcon } from '@phosphor-icons/react';
+import {
+    ArrowRightIcon,
+    BankIcon,
+    CheckCircleIcon,
+    LockIcon,
+    MoneyIcon,
+    MopedIcon,
+    SpinnerGapIcon,
+    TruckIcon,
+    WalletIcon,
+} from '@phosphor-icons/react';
 
 type CourierType = 'jne' | 'sicepat' | 'gosend';
 type PaymentType = 'gopay' | 'va';
@@ -85,7 +95,7 @@ export default function Checkout() {
                         {/* Shipping Section */}
                         <section className="bg-surface-container-low p-gutter border border-white/5 rounded-lg">
                             <div className="flex items-center gap-base mb-gutter">
-                                <TruckIcon size={28} className='text-secondary-container'/>
+                                <TruckIcon size={28} className="text-secondary-container" />
                                 <h2 className="text-3xl font-headline-md text-on-surface">
                                     Shipping Address
                                 </h2>
@@ -140,7 +150,7 @@ export default function Checkout() {
                         {/* Courier Selector */}
                         <section className="bg-surface-container-low p-gutter border border-white/5 rounded-lg">
                             <div className="flex items-center gap-base mb-gutter">
-                                <MopedIcon size={28} className='text-secondary-container' />
+                                <MopedIcon size={28} className="text-secondary-container" />
                                 <h2 className="text-3xl font-headline-md text-on-surface">
                                     Delivery Method
                                 </h2>
@@ -251,7 +261,7 @@ export default function Checkout() {
                         {/* Payment Section */}
                         <section className="bg-surface-container-low p-gutter border border-white/5 rounded-lg">
                             <div className="flex items-center gap-base mb-gutter">
-                                <MoneyIcon size={28} className='text-secondary-container' />
+                                <MoneyIcon size={28} className="text-secondary-container" />
                                 <h2 className="text-3xl font-headline-md text-on-surface">
                                     Payment Method
                                 </h2>
@@ -270,7 +280,7 @@ export default function Checkout() {
                                         onChange={() => setPayment('gopay')}
                                     />
                                     <div className="flex flex-col">
-                                        <WalletIcon size={32} className='text-primary mb-3' />
+                                        <WalletIcon size={32} className="text-primary mb-3" />
                                         <p className="tracking-wide leading-5 font-label-bold uppercase">
                                             GoPay / E-Wallet
                                         </p>
@@ -293,7 +303,7 @@ export default function Checkout() {
                                         onChange={() => setPayment('va')}
                                     />
                                     <div className="flex flex-col">
-                                        <BankIcon size={32} className='text-primary mb-3' />
+                                        <BankIcon size={32} className="text-primary mb-3" />
                                         <p className="tracking-wide leading-5 font-label-bold uppercase">
                                             Virtual Account
                                         </p>
@@ -379,7 +389,11 @@ export default function Checkout() {
                                     disabled={isProcessing}
                                 >
                                     <span>Pay Now</span>
-                                    <ArrowRightIcon size={24} weight='bold' className='group-hover:translate-x-1 transition-transform pb-1' />
+                                    <ArrowRightIcon
+                                        size={24}
+                                        weight="bold"
+                                        className="group-hover:translate-x-1 transition-transform pb-1"
+                                    />
                                 </button>
                                 <p className="text-center text-xs text-on-surface-variant mt-4 flex items-center justify-center gap-1">
                                     <LockIcon size={16} />
@@ -399,7 +413,7 @@ export default function Checkout() {
                             <div className="absolute inset-0 border-4 border-primary rounded-full animate-ping opacity-20"></div>
                             <div className="absolute inset-4 border-4 border-secondary-fixed rounded-full processing-pulse"></div>
                             <div className="absolute inset-0 flex items-center justify-center">
-                                <SpinnerGapIcon size={64} className='animate-spin' />
+                                <SpinnerGapIcon size={64} className="animate-spin" />
                             </div>
                         </div>
                         <h2 className="text-headline-md font-headline-md text-white uppercase tracking-widest">
@@ -421,7 +435,11 @@ export default function Checkout() {
                         </div>
 
                         <div className="text-center mb-gutter">
-                            <CheckCircleIcon size={124} className='text-green-500 mx-auto mb-4' weight='fill'/>
+                            <CheckCircleIcon
+                                size={124}
+                                className="text-green-500 mx-auto mb-4"
+                                weight="fill"
+                            />
                             <h3 className="text-headline-md font-headline-md uppercase">
                                 {paymentStatus === 'pending'
                                     ? 'Pembayaran Pending'

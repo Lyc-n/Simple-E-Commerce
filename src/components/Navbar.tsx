@@ -1,7 +1,9 @@
 import { ShoppingCartIcon, UserCircleIcon } from '@phosphor-icons/react';
 import { NavLink } from 'react-router-dom';
+import { useAuth } from '../context/authContext';
 
 export default function Navbar() {
+    const { user } = useAuth();
     return (
         <div className="bg-surface/80 backdrop-blur-md dark:bg-surface/80 docked full-width top-0 sticky z-50 shadow-md border-b border-white/10 h-15">
             <nav className="flex justify-between items-center w-full px-margin-mobile md:px-gutter max-w-container-max mx-auto h-full">
@@ -40,23 +42,36 @@ export default function Navbar() {
                     <NavLink
                         to="/checkout"
                         className={({ isActive }) =>
-                            `inline-block cursor-pointer transition-all duration-150 active:scale-95 ${
+                            `inline-block cursor-pointer transition-all duration-150 hover:text-primary active:scale-95 ${
                                 isActive ? 'text-primary' : 'text-on-surface'
                             }`
                         }
                     >
                         <ShoppingCartIcon size={24} />
                     </NavLink>
-                    <NavLink
-                        to="/profile"
-                        className={({ isActive }) =>
-                            `inline-block cursor-pointer transition-all duration-150 active:scale-95 ${
-                                isActive ? 'text-primary' : 'text-on-surface'
-                            }`
-                        }
-                    >
-                        <UserCircleIcon size={24} />
-                    </NavLink>
+                    {user ? (
+                        <NavLink
+                            to="/profile"
+                            className={({ isActive }) =>
+                                `inline-block cursor-pointer transition-all duration-150 hover:text-primary active:scale-95 ${
+                                    isActive ? 'text-primary' : 'text-on-surface'
+                                }`
+                            }
+                        >
+                            <UserCircleIcon size={24} />
+                        </NavLink>
+                    ) : (
+                        <NavLink
+                            to="/authentication"
+                            className={({ isActive }) =>
+                                `font-semibold text-xs uppercase tracking-wider transition-all duration-150 bg-primary-container px-4 py-2 hover:brightness-110 rounded hover:text-white active:scale-97 ${
+                                    isActive ? 'text-primary' : 'text-on-surface'
+                                }`
+                            }
+                        >
+                            masuk
+                        </NavLink>
+                    )}
                 </div>
             </nav>
         </div>

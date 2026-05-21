@@ -12,7 +12,7 @@ export const cardData: CardProps[] = [
     },
     {
         tag: 'SAVORY',
-        colorTag: 'secondary-container',
+        colorTag: 'secondary-fixed',
         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAFv-ujkitwuErnWZBnxYIAwsuB-MrlBdpNhFNgxbpOK9WWObcXQy3RILIvnGlYdMY5WoBrGcpKjni6v4JcOvxj14u3whz_jR0OdO4Ky-G7yqr3FwJlcBcT9BNz6tEBmetbIagqOZtKxFGcP6HtvPj6rxIfu4ouP5K-0jj-AuMwlzAZcEfpd_5lK9qJLpCjKLMTIkC-oNM72lehhir9WpzIJEMlvmQhR1vaACVkG__6DOYsI55n4qtYrgabiSu5IZqtCXyyyYUUmWQ',
         title: 'Ayam Bumbu',
         description:
@@ -21,7 +21,7 @@ export const cardData: CardProps[] = [
     },
     {
         tag: 'PREMIUM',
-        colorTag: 'secondary-container',
+        colorTag: 'secondary-fixed',
         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAAS2i8-pVijj-0qQ7INAoMHGTb5J7ecd885mHjQvy2Omalqi_X_0XtdMNYJtDoZs9UkZekv4a2qj9SwR1fQ4wbFGtp95zzMPlZwidXX1MI-bObdLvw1Kxk-fhVsj1oHEeEWKlQ8q8cNcV95nhJpqKIk_4y8PcNk58LqvbmXwUB0c0Nuh3WMqqp0Bp9qC_f092OZI3RZMW-zKqAzITdGFLU5fVeu1mIESZ_ebWj3JHC5wRgqjzsLmzL3bzXv6Ugz-2QlrIMGPxS3dg',
         title: 'Keju Supreme',
         description:

@@ -9,10 +9,63 @@ import {
 import React from 'react';
 import ButtonPrimer from '../components/ButtonPrimer';
 
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/authContext';
+
 export default function Auth() {
     const [mode, setMode] = React.useState<'login' | 'register'>('login');
     const [eye, setEye] = React.useState(false);
+    const navigate = useNavigate();
+    const { login, register } = useAuth();
+    const [loading, setLoading] = React.useState(false);
+    const [error, setError] = React.useState('');
+    const [form, setForm] = React.useState({
+        name: '',
+        username: '',
+        email: '',
+        identity: '',
+        password: '',
+        confirmPassword: '',
+    });
     const isRegister = mode === 'register';
+
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+        setForm((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value,
+        }));
+    }
+
+    async function handleSubmit(e: React.FormEvent) {
+        e.preventDefault();
+
+        try {
+            setLoading(true);
+            setError('');
+
+            if (isRegister) {
+                await register({
+                    name: form.name,
+                    username: form.username,
+                    email: form.email,
+                    password: form.password,
+                    confirmPassword: form.confirmPassword,
+                });
+            } else {
+                await login(form.identity, form.password);
+            }
+
+            navigate('/shop');
+        } catch (error: any) {
+            setError(error?.response?.data?.message || 'Terjadi kesalahan');
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    function handleBack () {
+        navigate(-1);
+    }
 
     return (
         <div className="h-screen bg-background text-on-surface font-body-md selection:bg-primary selection:text-on-primary overflow-x-hidden">
@@ -45,11 +98,11 @@ export default function Auth() {
 
                 {/* <!-- Right Side: Form Container --> */}
                 <section className="w-full md:w-1/2 min-h-[614px] md:min-h-screen flex items-center justify-center p-margin-mobile md:p-gutter bg-background">
-                    <div className="w-full max-w-md">
+                    <div className="w-full max-w-md cursor-default">
                         {/* <!-- Back Home Link --> */}
                         <a
                             className="inline-flex items-center gap-2 mb-12 text-on-surface-variant hover:text-primary transition-colors group"
-                            href="#"
+                            onClick={handleBack}
                         >
                             <ArrowLeftIcon size={24} />
                             <span className="font-label-bold text-xl uppercase">Back to Home</span>
@@ -85,22 +138,83 @@ export default function Auth() {
                                 </button>
                             </div>
                             {/* <!-- The Form --> */}
-                            <form className="space-y-6" id="auth-form">
+                            <form
+                                method="post"
+                                className="space-y-6"
+                                id="auth-form"
+                                onSubmit={handleSubmit}
+                            >
+                                {isRegister && (
+                                    <>
+                                        {/* Name */}
+                                        <div className="space-y-2">
+                                            <label className="block font-label-bold text-lg font-light tracking-wider uppercase text-on-surface-variant">
+                                                Full Name
+                                            </label>
+
+                                            <input
+                                                className="w-full bg-surface-container-low border-2 placeholder:text-surface-container-highest border-surface-variant rounded-lg px-4 py-2 text-on-surface"
+                                                type="text"
+                                                name="name"
+                                                value={form.name}
+                                                onChange={handleChange}
+                                                placeholder="Zainudin Ismail"
+                                            />
+                                        </div>
+
+                                        {/* Username */}
+                                        <div className="space-y-2">
+                                            <label className="block font-label-bold text-lg font-light tracking-wider uppercase text-on-surface-variant">
+                                                Username
+                                            </label>
+
+                                            <input
+                                                className="w-full bg-surface-container-low border-2 placeholder:text-surface-container-highest border-surface-variant rounded-lg px-4 py-2 text-on-surface"
+                                                type="text"
+                                                name="username"
+                                                value={form.username}
+                                                onChange={handleChange}
+                                                placeholder="zainudin"
+                                            />
+                                        </div>
+
+                                        {/* Email */}
+                                        <div className="space-y-2">
+                                            <label className="block font-label-bold text-lg font-light tracking-wider uppercase text-on-surface-variant">
+                                                Email
+                                            </label>
+
+                                            <input
+                                                className="w-full bg-surface-container-low border-2 placeholder:text-surface-container-highest border-surface-variant rounded-lg px-4 py-2 text-on-surface"
+                                                type="email"
+                                                name="email"
+                                                value={form.email}
+                                                onChange={handleChange}
+                                                placeholder="zainudin@gmail.com"
+                                            />
+                                        </div>
+                                    </>
+                                )}
                                 {/* <!-- Email/Username --> */}
-                                <div className="space-y-2">
-                                    <label
-                                        className="block font-label-bold text-lg font-light tracking-wider uppercase text-on-surface-variant"
-                                        // for="identity"
-                                    >
-                                        Email or Username
-                                    </label>
-                                    <input
-                                        className="w-full bg-surface-container-low border-2 border-surface-variant rounded-lg px-4 py-2 text-on-surface placeholder:text-surface-container-highest focus:outline-none focus:border-secondary-fixed focus:ring-1 focus:ring-secondary-fixed transition-all"
-                                        id="identity"
-                                        placeholder="yourname@domain.com"
-                                        type="text"
-                                    />
-                                </div>
+                                {!isRegister && (
+                                    <div className="space-y-2">
+                                        <label
+                                            className="block font-label-bold text-lg font-light tracking-wider uppercase text-on-surface-variant"
+                                            // for="identity"
+                                        >
+                                            Email or Username
+                                        </label>
+                                        <input
+                                            className="w-full bg-surface-container-low border-2 border-surface-variant rounded-lg px-4 py-2 text-on-surface placeholder:text-surface-container-highest focus:outline-none focus:border-secondary-fixed focus:ring-1 focus:ring-secondary-fixed transition-all"
+                                            id="identity"
+                                            placeholder="yourname@domain.com"
+                                            type="text"
+                                            value={form.identity}
+                                            onChange={handleChange}
+                                            name="identity"
+                                        />
+                                    </div>
+                                )}
                                 {/* <!-- Password --> */}
                                 <div className="space-y-2">
                                     <div className="flex justify-between items-center">
@@ -110,13 +224,15 @@ export default function Auth() {
                                         >
                                             Password
                                         </label>
-                                        <a
-                                            className="text-[10px] font-extralight tracking-widest uppercase text-primary hover:text-secondary-fixed transition-colors"
-                                            href="#"
-                                            id="forgot-pass"
-                                        >
-                                            Forgot ?
-                                        </a>
+                                        {!isRegister && (
+                                            <a
+                                                className="text-[10px] font-extralight tracking-widest uppercase text-primary hover:text-secondary-fixed transition-colors"
+                                                href="#"
+                                                id="forgot-pass"
+                                            >
+                                                Forgot ?
+                                            </a>
+                                        )}
                                     </div>
                                     <div className="relative">
                                         <input
@@ -124,6 +240,9 @@ export default function Auth() {
                                             id="password"
                                             placeholder="••••••••"
                                             type={eye ? 'text' : 'password'}
+                                            name="password"
+                                            value={form.password}
+                                            onChange={handleChange}
                                         />
                                         <button
                                             className="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface"
@@ -153,6 +272,9 @@ export default function Auth() {
                                                 id="confirm-password"
                                                 placeholder="••••••••"
                                                 type={eye ? 'text' : 'password'}
+                                                name="confirmPassword"
+                                                value={form.confirmPassword}
+                                                onChange={handleChange}
                                             />
                                         </div>
                                         <label className="flex items-center gap-3 cursor-pointer group">
@@ -187,12 +309,19 @@ export default function Auth() {
                                     </div>
                                 )}
 
+                                {error && (
+                                    <div className="border border-red-500/30 bg-red-500/10 text-red-400 px-4 py-3 rounded-lg text-sm">
+                                        {error}
+                                    </div>
+                                )}
+
                                 {/* <!-- Submit Button --> */}
                                 <ButtonPrimer
-                                    text={isRegister ? 'DAFTAR' : 'LOGIN'}
+                                    text={loading ? 'loading...' : isRegister ? 'DAFTAR' : 'LOGIN'}
                                     mainColor="bg-primary-container"
                                     extraClasses="w-full justify-center active:bg-primary-container py-2"
                                     showIcon={false}
+                                    type="submit"
                                 ></ButtonPrimer>
                             </form>
                             {/* <!-- Social Login --> */}
