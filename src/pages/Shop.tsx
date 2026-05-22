@@ -1,5 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
-import { CaretLeftIcon, CaretRightIcon } from '@phosphor-icons/react';
+import {
+    CaretLeftIcon,
+    CaretRightIcon,
+} from '@phosphor-icons/react';
 
 import Card from '../components/Card';
 import Footer from '../components/Footer';
@@ -57,21 +60,21 @@ export default function Shop() {
     }, []);
 
     const filteredProducts = useMemo(() => {
-        const allVariants = products.flatMap((product) =>
-            product.variants.map((variant) => ({
-                product,
-                variant,
-            }))
-        );
-
         if (selectedFlavor === 'All') {
-            return allVariants;
+            return products;
         }
 
-        return allVariants.filter((item) => item.variant.flavor === selectedFlavor);
+        return products.filter((product) =>
+            product.variants.some(
+                (variant) =>
+                    variant.flavor === selectedFlavor
+            )
+        );
     }, [products, selectedFlavor]);
 
-    const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(
+        filteredProducts.length / ITEMS_PER_PAGE
+    );
 
     const paginatedProducts = filteredProducts.slice(
         (currentPage - 1) * ITEMS_PER_PAGE,
@@ -96,9 +99,15 @@ export default function Shop() {
     }
 
     function getTagColor(flavor: string) {
-        const primaryFlavors = ['Balado', 'Spicy', 'Beef BBQ'];
+        const primaryFlavors = [
+            'Balado',
+            'Spicy',
+            'Beef BBQ',
+        ];
 
-        return primaryFlavors.includes(flavor) ? 'bg-primary' : 'bg-secondary-fixed';
+        return primaryFlavors.includes(flavor)
+            ? 'bg-primary'
+            : 'bg-secondary-fixed';
     }
 
     return (
@@ -115,8 +124,8 @@ export default function Shop() {
                             </h1>
 
                             <p className="text-on-surface-variant max-w-md">
-                                Intense flavor, maximum crunch. Choose your weapon and level up your
-                                snack game.
+                                Intense flavor, maximum crunch. Choose your
+                                weapon and level up your snack game.
                             </p>
                         </div>
 
@@ -126,7 +135,9 @@ export default function Shop() {
                                 'All',
                                 ...new Set(
                                     products.flatMap((product) =>
-                                        product.variants.map((variant) => variant.flavor)
+                                        product.variants.map(
+                                            (variant) => variant.flavor
+                                        )
                                     )
                                 ),
                             ].map((flavor) => (
@@ -155,22 +166,42 @@ export default function Shop() {
                     className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10 animate-fade"
                 >
                     {loading ? (
-                        <p className="text-on-surface-variant">Loading products...</p>
+                        <p className="text-on-surface-variant">
+                            Loading products...
+                        </p>
                     ) : paginatedProducts.length === 0 ? (
-                        <p className="text-on-surface-variant">Product tidak ditemukan.</p>
+                        <p className="text-on-surface-variant">
+                            Product tidak ditemukan.
+                        </p>
                     ) : (
-                        paginatedProducts.map(({ product, variant }) => {
-                            const firstSize = variant?.sizes?.[0];
+                        paginatedProducts.map((product) => {
+                            const selectedVariant =
+                                selectedFlavor === 'All'
+                                    ? product.variants?.[0]
+                                    : product.variants.find(
+                                        (variant) =>
+                                            variant.flavor === selectedFlavor
+                                    );
+
+                            const firstSize =
+                                selectedVariant?.sizes?.[0];
 
                             return (
                                 <Card
-                                    key={variant.id}
-                                    tag={variant.flavor}
-                                    colorTag={getTagColor(variant.flavor)}
+                                    key={product.id}
+                                    tag={
+                                        selectedVariant?.flavor ||
+                                        'Snack'
+                                    }
+                                    colorTag={getTagColor(selectedVariant?.flavor || 'emerald-400')}
                                     img={product.imageUrl}
-                                    title={variant.name}
-                                    description={product.description}
-                                    price={firstSize?.price || 0}
+                                    title={product.name}
+                                    description={
+                                        product.description
+                                    }
+                                    price={
+                                        firstSize?.price || 0
+                                    }
                                 />
                             );
                         })
@@ -197,7 +228,9 @@ export default function Shop() {
                                 return (
                                     <button
                                         key={page}
-                                        onClick={() => setCurrentPage(page)}
+                                        onClick={() =>
+                                            setCurrentPage(page)
+                                        }
                                         className={`w-10 h-10 rounded-full transition-all duration-200 font-bold
                                             
                                             ${
