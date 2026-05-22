@@ -67,8 +67,7 @@ export default function Shop() {
         return products.filter((product) =>
             product.variants.some(
                 (variant) =>
-                    variant.flavor.toLowerCase() ===
-                    selectedFlavor.toLowerCase()
+                    variant.flavor === selectedFlavor
             )
         );
     }, [products, selectedFlavor]);
@@ -99,6 +98,18 @@ export default function Shop() {
         }
     }
 
+    function getTagColor(flavor: string) {
+        const primaryFlavors = [
+            'Balado',
+            'Spicy',
+            'Beef BBQ',
+        ];
+
+        return primaryFlavors.includes(flavor)
+            ? 'bg-primary'
+            : 'bg-secondary-fixed';
+    }
+
     return (
         <div className="bg-background text-on-surface font-body-md selection:bg-primary-container selection:text-white min-h-screen">
             <Navbar />
@@ -122,10 +133,13 @@ export default function Shop() {
                         <div className="flex flex-wrap gap-3">
                             {[
                                 'All',
-                                'Original',
-                                'Spicy',
-                                'Nori',
-                                'Beef',
+                                ...new Set(
+                                    products.flatMap((product) =>
+                                        product.variants.map(
+                                            (variant) => variant.flavor
+                                        )
+                                    )
+                                ),
                             ].map((flavor) => (
                                 <button
                                     key={flavor}
@@ -174,7 +188,7 @@ export default function Shop() {
                                         firstVariant?.flavor ||
                                         'Snack'
                                     }
-                                    colorTag="bg-primary-container"
+                                    colorTag={getTagColor(firstVariant?.flavor || 'emerald-400')}
                                     img={product.imageUrl}
                                     title={product.name}
                                     description={
