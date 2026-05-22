@@ -37,4 +37,13 @@ export const cardData: CardProps[] = [
             'A harmonious blend of traditional Indonesian herbs and succulent roasted chicken.',
         price: 12500,
     },
+    {
+        tag: 'SAVORY',
+        colorTag: 'secondary-fixed',
+        img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAFv-ujkitwuErnWZBnxYIAwsuB-MrlBdpNhFNgxbpOK9WWObcXQy3RILIvnGlYdMY5WoBrGcpKjni6v4JcOvxj14u3whz_jR0OdO4Ky-G7yqr3FwJlcBcT9BNz6tEBmetbIagqOZtKxFGcP6HtvPj6rxIfu4ouP5K-0jj-AuMwlzAZcEfpd_5lK9qJLpCjKLMTIkC-oNM72lehhir9WpzIJEMlvmQhR1vaACVkG__6DOYsI55n4qtYrgabiSu5IZqtCXyyyYUUmWQ',
+        title: 'Ayam Bumbu',
+        description:
+            'A harmonious blend of traditional Indonesian herbs and succulent roasted chicken.',
+        price: 12500,
+    },
 ];

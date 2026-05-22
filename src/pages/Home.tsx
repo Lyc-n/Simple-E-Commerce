@@ -5,8 +5,23 @@ import Card from '../components/Card';
 import Footer from '../components/Footer';
 
 import { cardData } from '../data/cardData';
+import { useState } from 'react';
 
 export default function Home() {
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const visibleCard = 4;
+
+    function nextSlide() {
+        if (currentIndex + visibleCard < cardData.length) {
+            setCurrentIndex((prev) => prev + 1);
+        }
+    }
+    function prevSlide() {
+        if (currentIndex > 0) {
+            setCurrentIndex((prev) => prev - 1);
+        }
+    }
+
     return (
         <div className="bg-background text-on-surface font-body-md selection:bg-primary-container selection:text-white">
             <Navbar />
@@ -118,10 +133,19 @@ export default function Home() {
                                 </p>
                             </div>
                             <div className="flex gap-2">
-                                <button className="bg-surface-container hover:bg-primary transition-colors duration-200 hover:text-on-primary active:scale-98 p-2 rounded-full material-symbols-outlined text-white">
+                                <button
+                                    onClick={prevSlide}
+                                    disabled={currentIndex === 0}
+                                    className="bg-surface-container hover:bg-primary transition-colors duration-200 hover:text-on-primary active:scale-98 p-2 rounded-full text-white disabled:opacity-40"
+                                >
                                     <CaretLeftIcon size={24} />
                                 </button>
-                                <button className="bg-surface-container hover:bg-primary transition-colors duration-200 hover:text-on-primary active:scale-98 p-2 rounded-full material-symbols-outlined text-white">
+
+                                <button
+                                    onClick={nextSlide}
+                                    disabled={currentIndex === cardData.length}
+                                    className="bg-surface-container hover:bg-primary transition-colors duration-200 hover:text-on-primary active:scale-98 p-2 rounded-full text-white disabled:opacity-40"
+                                >
                                     <CaretRightIcon size={24} />
                                 </button>
                             </div>
@@ -129,18 +153,29 @@ export default function Home() {
                         {/* signature cut */}
 
                         {/* card show */}
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-                            {cardData.map((card, index) => (
-                                <Card
-                                    key={index}
-                                    tag={card.tag}
-                                    colorTag={card.colorTag}
-                                    img={card.img}
-                                    title={card.title}
-                                    description={card.description}
-                                    price={card.price}
-                                />
-                            ))}
+                        <div className="overflow-hidden">
+                            <div
+                                className="flex gap-8 transition-transform duration-300"
+                                style={{
+                                    transform: `translateX(-${currentIndex * 25}%)`,
+                                }}
+                            >
+                                {cardData.map((card, index) => (
+                                    <div
+                                        key={index}
+                                        className="min-w-full md:min-w-[calc(25%-1.5rem)]"
+                                    >
+                                        <Card
+                                            tag={card.tag}
+                                            colorTag={card.colorTag}
+                                            img={card.img}
+                                            title={card.title}
+                                            description={card.description}
+                                            price={card.price}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                         {/* card show */}
                     </div>

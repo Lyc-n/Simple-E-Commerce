@@ -3,7 +3,6 @@ import {
     CheckFatIcon,
     EyeClosedIcon,
     EyeIcon,
-    FacebookLogoIcon,
     GoogleLogoIcon,
 } from '@phosphor-icons/react';
 import React from 'react';
@@ -159,6 +158,7 @@ export default function Auth() {
                                                 value={form.name}
                                                 onChange={handleChange}
                                                 placeholder="Zainudin Ismail"
+                                                required
                                             />
                                         </div>
 
@@ -175,6 +175,7 @@ export default function Auth() {
                                                 value={form.username}
                                                 onChange={handleChange}
                                                 placeholder="zainudin"
+                                                required
                                             />
                                         </div>
 
@@ -191,6 +192,7 @@ export default function Auth() {
                                                 value={form.email}
                                                 onChange={handleChange}
                                                 placeholder="zainudin@gmail.com"
+                                                required
                                             />
                                         </div>
                                     </>
@@ -212,6 +214,7 @@ export default function Auth() {
                                             value={form.identity}
                                             onChange={handleChange}
                                             name="identity"
+                                            required
                                         />
                                     </div>
                                 )}
@@ -243,6 +246,7 @@ export default function Auth() {
                                             name="password"
                                             value={form.password}
                                             onChange={handleChange}
+                                            required
                                         />
                                         <button
                                             className="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface"
@@ -275,6 +279,7 @@ export default function Auth() {
                                                 name="confirmPassword"
                                                 value={form.confirmPassword}
                                                 onChange={handleChange}
+                                                required
                                             />
                                         </div>
                                         <label className="flex items-center gap-3 cursor-pointer group">
@@ -325,28 +330,39 @@ export default function Auth() {
                                 ></ButtonPrimer>
                             </form>
                             {/* <!-- Social Login --> */}
-                            <div className="space-y-4">
-                                <div className="relative flex items-center py-4">
-                                    <div className="grow border-t border-surface-variant"></div>
-                                    <span className="shrink mx-4 font-extralight text-[10px] text-on-surface-variant uppercase tracking-widest">
+                            <div className="space-y-4 w-full">
+                                <div className="relative flex items-center py-2">
+                                    <div className="flex-1 border-t border-surface-variant"></div>
+
+                                    <span className="px-4 text-[10px] font-light tracking-[0.25em] uppercase text-on-surface-variant whitespace-nowrap">
                                         Or Continue With
                                     </span>
-                                    <div className="grow border-t border-surface-variant"></div>
+
+                                    <div className="flex-1 border-t border-surface-variant"></div>
                                 </div>
-                                <div className="grid grid-cols-2 gap-4">
-                                    <button className="flex items-center justify-center gap-2 py-3 border-2 border-surface-variant rounded-lg hover:border-on-surface transition-all text-on-surface">
-                                        <GoogleLogoIcon size={24} weight="bold" />
-                                        <span className="font-label-bold text-lg font-light tracking-wider uppercase">
-                                            Google
-                                        </span>
-                                    </button>
-                                    <button className="flex items-center justify-center gap-2 py-3 border-2 border-surface-variant rounded-lg hover:border-on-surface transition-all text-on-surface">
-                                        <FacebookLogoIcon size={24} />
-                                        <span className="font-label-bold text-lg font-light tracking-wider uppercase">
-                                            Facebook
-                                        </span>
-                                    </button>
-                                </div>
+
+                                <button
+                                    type="button"
+                                    className="
+                                        w-full
+                                        flex items-center justify-center gap-3
+                                        py-3 px-4
+                                        rounded-lg
+                                        border-2 border-surface-variant
+                                        bg-surface-container-low
+                                        text-on-surface
+                                        transition-all duration-200
+                                        hover:border-on-surface
+                                        hover:-translate-y-0.5
+                                        active:scale-[0.98]
+                                    "
+                                >
+                                    <GoogleLogoIcon size={22} weight="bold" />
+
+                                    <span className="text-sm font-medium tracking-[0.2em] uppercase">
+                                        Google
+                                    </span>
+                                </button>
                             </div>
                         </div>
                     </div>

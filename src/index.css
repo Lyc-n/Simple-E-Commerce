@@ -102,6 +102,22 @@
     --text-headline-lg-mobile-font-weight: 800;
 }
 
+@keyframes fade {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade {
+    animation: fade 0.25s ease;
+}
+
 .wavy-separator {
     mask-image: url("data:image/svg+xml,%3Csvg width='1440' height='100' viewBox='0 0 1440 100' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 50C150 20 300 80 450 50C600 20 750 80 900 50C1050 20 1200 80 1350 50C1400 40 1440 50 1440 50V100H0V50Z' fill='black'/%3E%3C/svg%3E");
     mask-size: cover;

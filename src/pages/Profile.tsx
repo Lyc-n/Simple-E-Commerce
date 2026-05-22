@@ -32,47 +32,46 @@ export default function Profile() {
     // Handler untuk tombol Simpan / Edit
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-    try {
-        // kalau belum edit → masuk mode edit
-        if (!isEditing) {
-            setIsEditing(true);
-            return;
-        }
-
-        // kalau sedang edit → simpan
-        await updateProfile(profileData);
-
-        setIsEditing(false);
-
-        alert('Profile berhasil diupdate');
-    } catch (error) {
-        console.error(error);
-
-        alert('Gagal update profile');
-    }
-    };
-
-
-    // Fetch data profil saat komponen pertama kali dimuat
-useEffect(() => {
-    async function fetchProfile() {
         try {
-            const data = await getMe();
+            // kalau belum edit → masuk mode edit
+            if (!isEditing) {
+                setIsEditing(true);
+                return;
+            }
 
-            setProfileData({
-                fullName: data.user.name || '',
-                email: data.user.email || '',
-                phone: data.user.number || '',
-                address: data.user.address || '',
-                bio: data.user.bio || '',
-            });
+            // kalau sedang edit → simpan
+            await updateProfile(profileData);
+
+            setIsEditing(false);
+
+            alert('Profile berhasil diupdate');
         } catch (error) {
             console.error(error);
-        }
-    }
 
-    fetchProfile();
-}, []);
+            alert('Gagal update profile');
+        }
+    };
+
+    // Fetch data profil saat komponen pertama kali dimuat
+    useEffect(() => {
+        async function fetchProfile() {
+            try {
+                const data = await getMe();
+
+                setProfileData({
+                    fullName: data.user.name || '',
+                    email: data.user.email || '',
+                    phone: data.user.number || '',
+                    address: data.user.address || '',
+                    bio: data.user.bio || '',
+                });
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        fetchProfile();
+    }, []);
 
     return (
         <div className="min-h-screen bg-[#121414] text-[#e2e2e2] font-sans antialiased flex flex-col">
@@ -111,7 +110,19 @@ useEffect(() => {
                             <h2 className="text-2xl font-extrabold uppercase tracking-tight text-[#e2e2e2]">
                                 Profil Saya
                             </h2>
-                            {isEditing ? <PencilSimpleLineIcon size={20} className='text-primary-container' weight='fill' /> : <PencilSimpleSlashIcon size={20} className='text-primary-container' weight='fill' />}
+                            {isEditing ? (
+                                <PencilSimpleLineIcon
+                                    size={20}
+                                    className="text-primary-container"
+                                    weight="fill"
+                                />
+                            ) : (
+                                <PencilSimpleSlashIcon
+                                    size={20}
+                                    className="text-primary-container"
+                                    weight="fill"
+                                />
+                            )}
                         </div>
 
                         <form onSubmit={handleSubmit} className="space-y-5">
@@ -166,7 +177,8 @@ useEffect(() => {
                             {/* Alamat (Opsional) */}
                             <div className="space-y-1">
                                 <label className="block text-xs font-bold uppercase tracking-wider text-[#e5bdb8]">
-                                    Alamat Rumah{' '}                                </label>
+                                    Alamat Rumah{' '}
+                                </label>
                                 <textarea
                                     name="address"
                                     disabled={!isEditing}
