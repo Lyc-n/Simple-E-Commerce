@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useAuth } from '../context/authContext';
+import { getMe } from '../services/authService';
 
 export default function Profile() {
     const { logout } = useAuth();
 
     // State untuk menyimpan data profil
     const [profileData, setProfileData] = useState({
-        fullName: 'Keripik Lovers',
-        email: 'yourname@domain.com',
-        phone: '081234567890',
-        address: 'Jl. Kelezatan No. 12, Jakarta',
-        bio: 'Hidup itu penuh rasa, jangan biarkan flat!',
+        fullName: '',
+        email: '',
+        phone: '',
+        address: '',
+        bio: '',
     });
 
     // State untuk mengatur mode edit
@@ -32,6 +33,28 @@ export default function Profile() {
         e.preventDefault();
         setIsEditing(!isEditing);
     };
+
+
+    // Fetch data profil saat komponen pertama kali dimuat
+useEffect(() => {
+    async function fetchProfile() {
+        try {
+            const data = await getMe();
+
+            setProfileData({
+                fullName: data.user.name || '',
+                email: data.user.email || '',
+                phone: data.user.number || '',
+                address: data.user.address || '',
+                bio: data.user.bio || '',
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    fetchProfile();
+}, []);
 
     return (
         <div className="min-h-screen bg-[#121414] text-[#e2e2e2] font-sans antialiased flex flex-col">
