@@ -98,18 +98,6 @@ export default function Shop() {
         }
     }
 
-    function getTagColor(flavor: string) {
-        const primaryFlavors = [
-            'Balado',
-            'Spicy',
-            'Beef BBQ',
-        ];
-
-        return primaryFlavors.includes(flavor)
-            ? 'bg-primary'
-            : 'bg-secondary-fixed';
-    }
-
     return (
         <div className="bg-background text-on-surface font-body-md selection:bg-primary-container selection:text-white min-h-screen">
             <Navbar />
