@@ -3,6 +3,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useAuth } from '../context/authContext';
 import { getMe, updateProfile } from '../services/authService';
+import { PencilLineIcon, PencilSimpleLineIcon, PencilSimpleSlashIcon } from '@phosphor-icons/react';
 
 export default function Profile() {
     const { logout } = useAuth();
@@ -110,9 +111,7 @@ useEffect(() => {
                             <h2 className="text-2xl font-extrabold uppercase tracking-tight text-[#e2e2e2]">
                                 Profil Saya
                             </h2>
-                            <p className="text-xs text-[#e5bdb8] italic">
-                                {isEditing ? 'Mode Mengubah' : 'Mode Melihat'}
-                            </p>
+                            {isEditing ? <PencilSimpleLineIcon size={20} className='text-primary-container' weight='fill' /> : <PencilSimpleSlashIcon size={20} className='text-primary-container' weight='fill' />}
                         </div>
 
                         <form onSubmit={handleSubmit} className="space-y-5">
@@ -152,9 +151,6 @@ useEffect(() => {
                             <div className="space-y-1">
                                 <label className="block text-xs font-bold uppercase tracking-wider text-[#e5bdb8]">
                                     Nomor Telepon{' '}
-                                    <span className="text-xs text-secondary-fixed font-normal lowercase">
-                                        (opsional)
-                                    </span>
                                 </label>
                                 <input
                                     type="text"
@@ -170,11 +166,7 @@ useEffect(() => {
                             {/* Alamat (Opsional) */}
                             <div className="space-y-1">
                                 <label className="block text-xs font-bold uppercase tracking-wider text-[#e5bdb8]">
-                                    Alamat Rumah{' '}
-                                    <span className="text-xs text-secondary-fixed font-normal lowercase">
-                                        (opsional)
-                                    </span>
-                                </label>
+                                    Alamat Rumah{' '}                                </label>
                                 <textarea
                                     name="address"
                                     disabled={!isEditing}
@@ -190,9 +182,6 @@ useEffect(() => {
                             <div className="space-y-1">
                                 <label className="block text-xs font-bold uppercase tracking-wider text-[#e5bdb8]">
                                     Bio{' '}
-                                    <span className="text-xs text-secondary-fixed font-normal lowercase">
-                                        (opsional)
-                                    </span>
                                 </label>
                                 <input
                                     type="text"
