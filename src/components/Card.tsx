@@ -10,7 +10,7 @@ type CardProps = {
 };
 
 export default function Card(props: CardProps) {
-    const { tag, colorTag, img, title, description, price } = props;
+    const { tag='secondary-fixed', colorTag, img, title, description, price } = props;
     return (
         <div className="group w-72 bg-surface-container-low p-4 border border-white/5 relative overflow-hidden transition-all duration-300 hover:border-primary rounded-lg">
             {/* tag */}
