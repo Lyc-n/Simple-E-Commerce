@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useAuth } from '../context/authContext';
-import { getMe } from '../services/authService';
+import { getMe, updateProfile } from '../services/authService';
 
 export default function Profile() {
     const { logout } = useAuth();
@@ -29,9 +29,26 @@ export default function Profile() {
     };
 
     // Handler untuk tombol Simpan / Edit
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setIsEditing(!isEditing);
+    try {
+        // kalau belum edit → masuk mode edit
+        if (!isEditing) {
+            setIsEditing(true);
+            return;
+        }
+
+        // kalau sedang edit → simpan
+        await updateProfile(profileData);
+
+        setIsEditing(false);
+
+        alert('Profile berhasil diupdate');
+    } catch (error) {
+        console.error(error);
+
+        alert('Gagal update profile');
+    }
     };
 
 
@@ -123,7 +140,7 @@ useEffect(() => {
                                 <input
                                     type="email"
                                     name="email"
-                                    disabled={!isEditing}
+                                    disabled={true}
                                     value={profileData.email}
                                     onChange={handleChange}
                                     placeholder="nama@domain.com"

@@ -13,6 +13,13 @@ export type LoginPayload = {
     password: string;
 };
 
+export type UpdateProfilePayload = {
+    fullName: string;
+    phone?: string;
+    address?: string;
+    bio?: string;
+};
+
 export async function registerUser(payload: RegisterPayload) {
     const response = await api.post('/api/auth/register', payload);
 
@@ -33,6 +40,12 @@ export async function getMe() {
 
 export async function logoutUser() {
     const response = await api.post('/api/auth/logout');
+
+    return response.data;
+}
+
+export async function updateProfile(payload: UpdateProfilePayload) {
+    const response = await api.put('/api/auth/profile', payload);
 
     return response.data;
 }
