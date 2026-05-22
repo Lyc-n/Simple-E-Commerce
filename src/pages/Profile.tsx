@@ -3,7 +3,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useAuth } from '../context/authContext';
 import { getMe, updateProfile } from '../services/authService';
-import { PencilLineIcon, PencilSimpleLineIcon, PencilSimpleSlashIcon } from '@phosphor-icons/react';
+import { PencilSimpleLineIcon, PencilSimpleSlashIcon } from '@phosphor-icons/react';
 
 export default function Profile() {
     const { logout } = useAuth();
