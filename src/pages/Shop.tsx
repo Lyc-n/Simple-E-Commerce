@@ -193,7 +193,6 @@ export default function Shop() {
                                         selectedVariant?.flavor ||
                                         'Snack'
                                     }
-                                    colorTag={getTagColor(selectedVariant?.flavor || 'emerald-400')}
                                     img={product.imageUrl}
                                     title={product.name}
                                     description={
