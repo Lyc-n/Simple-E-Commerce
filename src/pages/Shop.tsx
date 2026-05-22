@@ -30,6 +30,8 @@ type Product = {
     slug: string;
     description: string;
     imageUrl: string;
+    tag: string;
+    tagColor: string;
     variants: ProductVariant[];
 };
 
@@ -98,6 +100,24 @@ export default function Shop() {
         }
     }
 
+    function hashString(str: string) {
+        let hash = 0;
+
+        for (let i = 0; i < str.length; i++) {
+            hash = (hash << 5) - hash + str.charCodeAt(i);
+            hash |= 0;
+        }
+
+        return Math.abs(hash);
+    }
+
+    function pickStableRandom<T>(arr: T[], seed: string) {
+        if (!arr.length) return undefined;
+
+        const index = hashString(seed) % arr.length;
+        return arr[index];
+    }
+
     return (
         <div className="bg-background text-on-surface font-body-md selection:bg-primary-container selection:text-white min-h-screen">
             <Navbar />
@@ -163,33 +183,31 @@ export default function Shop() {
                         </p>
                     ) : (
                         paginatedProducts.map((product) => {
-                            const selectedVariant =
+                            const filteredVariants =
                                 selectedFlavor === 'All'
-                                    ? product.variants?.[0]
-                                    : product.variants.find(
-                                        (variant) =>
-                                            variant.flavor === selectedFlavor
+                                    ? product.variants : product.variants.filter(
+                                        (v) => v.flavor === selectedFlavor
                                     );
 
-                            const firstSize =
-                                selectedVariant?.sizes?.[0];
+                            const selectedVariant = pickStableRandom(
+                                filteredVariants,
+                                product.id + selectedFlavor
+                            );
+
+                            const selectedSize = selectedVariant?.sizes?.reduce(
+                                (main, curr) => (curr.price < main.price ? curr : main),
+                                selectedVariant?.sizes?.[0]
+                            );
 
                             return (
                                 <Card
                                     key={product.id}
-                                    tag={
-                                        selectedVariant?.flavor ||
-                                        'Snack'
-                                    }
-                                    colorTag='secondary-fixed'
+                                    tag={selectedVariant?.flavor || 'No Flavor'}
+                                    colorTag={product.tagColor}
                                     img={product.imageUrl}
                                     title={product.name}
-                                    description={
-                                        product.description
-                                    }
-                                    price={
-                                        firstSize?.price || 0
-                                    }
+                                    description={product.description}
+                                    price={selectedSize?.price || 0}
                                 />
                             );
                         })
