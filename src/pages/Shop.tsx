@@ -193,6 +193,7 @@ export default function Shop() {
                                         selectedVariant?.flavor ||
                                         'Snack'
                                     }
+                                    colorTag='secondary-fixed'
                                     img={product.imageUrl}
                                     title={product.name}
                                     description={
