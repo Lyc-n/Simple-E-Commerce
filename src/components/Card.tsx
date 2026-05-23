@@ -7,10 +7,11 @@ type CardProps = {
     title: string;
     description: string;
     price: number;
+    addToCart?: () => void;
 };
 
 export default function Card(props: CardProps) {
-    const { tag='secondary-fixed', colorTag, img, title, description, price } = props;
+    const { tag='secondary-fixed', colorTag, img, title, description, price, addToCart } = props;
     return (
         <div className="group w-72 bg-surface-container-low p-4 border border-white/5 relative overflow-hidden transition-all duration-300 hover:border-primary rounded-lg">
             {/* tag */}
@@ -41,7 +42,7 @@ export default function Card(props: CardProps) {
                     <span className="text-secondary-fixed font-bold text-xl">
                         Rp {price.toLocaleString('id-ID')}
                     </span>
-                    <ButtonSec />
+                    <ButtonSec onClick={addToCart} />
                 </div>
             </div>
         </div>

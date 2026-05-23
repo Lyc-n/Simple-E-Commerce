@@ -83,6 +83,8 @@ export default function Shop() {
         currentPage * ITEMS_PER_PAGE
     );
 
+    const pages = getPagination(currentPage, totalPages);
+
     function handleFilter(flavor: string) {
         setSelectedFlavor(flavor);
         setCurrentPage(1);
@@ -116,6 +118,36 @@ export default function Shop() {
 
         const index = hashString(seed) % arr.length;
         return arr[index];
+    }
+
+    function getPagination(current: number, total: number) {
+        const delta = 1; // kiri kanan
+        const range: number[] = [];
+
+        const start = Math.max(1, current - delta);
+        const end = Math.min(total, current + delta);
+
+        for (let i = start; i <= end; i++) {
+            range.push(i);
+        }
+
+        return range;
+    }
+
+    async function handleAddToCart(variantSizeId: string) {
+        const userId = localStorage.getItem('userId');
+
+        if (!userId) return alert('Login dulu');
+
+        try {
+            await api.post('/api/cart', {
+                userId,
+                variantSizeId,
+                quantity: 1,
+            });
+        } catch (err) {
+            console.error(err);
+        }
     }
 
     return (
@@ -208,6 +240,7 @@ export default function Shop() {
                                     title={product.name}
                                     description={product.description}
                                     price={selectedSize?.price || 0}
+                                    addToCart={() => handleAddToCart(selectedSize?.id || '')}
                                 />
                             );
                         })
@@ -216,49 +249,40 @@ export default function Shop() {
 
                 {/* PAGINATION */}
                 {!loading && totalPages > 1 && (
-                    <section className="flex items-center justify-center gap-4">
+                    <section className="flex items-center justify-center gap-3">
+
                         <button
                             onClick={prevPage}
                             disabled={currentPage === 1}
-                            className="bg-surface-container hover:bg-emerald-400 transition-colors duration-200 hover:text-on-primary active:scale-95 p-3 rounded-full text-white disabled:opacity-40 disabled:cursor-not-allowed"
+                            className="p-3 rounded-full bg-surface-container disabled:opacity-40"
                         >
                             <CaretLeftIcon size={22} />
                         </button>
 
-                        <div className="flex items-center gap-2">
-                            {Array.from({
-                                length: totalPages,
-                            }).map((_, index) => {
-                                const page = index + 1;
-
-                                return (
-                                    <button
-                                        key={page}
-                                        onClick={() =>
-                                            setCurrentPage(page)
-                                        }
-                                        className={`w-10 h-10 rounded-full transition-all duration-200 font-bold
-                                            
-                                            ${
-                                                currentPage === page
-                                                    ? 'bg-primary-container text-white scale-110'
-                                                    : 'bg-surface-container text-on-surface hover:bg-surface-container-high'
-                                            }
-                                        `}
-                                    >
-                                        {page}
-                                    </button>
-                                );
-                            })}
-                        </div>
+                        {pages.map((page) => (
+                            <button
+                                key={page}
+                                onClick={() => setCurrentPage(page)}
+                                className={`w-10 h-10 rounded-full transition-all
+                                    ${
+                                        currentPage === page
+                                            ? 'bg-primary-container text-white scale-110'
+                                            : 'bg-surface-container text-white'
+                                    }
+                                `}
+                            >
+                                {page}
+                            </button>
+                        ))}
 
                         <button
                             onClick={nextPage}
                             disabled={currentPage === totalPages}
-                            className="bg-surface-container hover:bg-primary transition-colors duration-200 hover:text-on-primary active:scale-95 p-3 rounded-full text-white disabled:opacity-40 disabled:cursor-not-allowed"
+                            className="p-3 rounded-full bg-surface-container disabled:opacity-40"
                         >
                             <CaretRightIcon size={22} />
                         </button>
+
                     </section>
                 )}
             </main>
