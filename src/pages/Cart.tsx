@@ -8,6 +8,7 @@ import {
     PlusIcon,
     MinusIcon,
     ArrowRightIcon,
+    XIcon,
 } from '@phosphor-icons/react';
 
 type CartItem = {
@@ -174,27 +175,31 @@ export default function Cart() {
                                 Summary
                             </h2>
 
-                            <div className="space-y-3 text-on-surface-variant">
+                            <div className="space-y-2 text-on-surface-variant">
 
                                 <div className="flex justify-between">
                                     <span>Subtotal</span>
                                     <span>
-                                        Rp.{subtotal.toLocaleString('id-ID')}
+                                        Rp {subtotal.toLocaleString('id-ID')}
                                     </span>
                                 </div>
 
-                                <div className="flex justify-between">
+                                <div className="flex justify-between pb-1 border-white/10 border-dashed">
                                     <span>Shipping</span>
                                     <span>Calculated at checkout</span>
                                 </div>
 
                                 {cart.map((order)=>(
                                     <div className="flex justify-between">
-                                        <p className='text-xs text-primary'>
-                                            {order.productName}
-                                        </p>
+                                        <div className="flex items-center gap-1.5">
+                                            <p className='text-xs text-primary'>
+                                                {order.productName}
+                                            </p>
+                                            <XIcon size={12} />
+                                        </div>
                                         <p className="text-xs text-primary">
-                                            Rp.{order.price * order.quantity}
+                                            Rp {''}
+                                            {(order.price * order.quantity).toLocaleString('id-ID')}
                                         </p>
                                     </div>
                                 ))}

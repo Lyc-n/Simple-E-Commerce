@@ -389,27 +389,28 @@ export default function Checkout() {
                                         cart.map((item) => (
                                             <div
                                                 key={item.id}
-                                                className="flex items-center justify-between bg-surface-container-low p-gutter rounded-lg border border-white/5"
+                                                className="flex items-center justify-between bg-secondary p-2 rounded-lg"
                                             >
 
                                                 {/* PRODUCT */}
                                                 <div className="flex items-center gap-4">
                                                     <img
                                                         src={item.imageUrl}
-                                                        className="w-16 h-16 object-cover rounded border border-white/10"
+                                                        className="w-12 h-12 object-cover rounded border border-error-container/10"
                                                     />
 
                                                     <div>
-                                                        <h3 className="font-bold text-white">
+                                                        <h3>
                                                             {item.productName}
                                                         </h3>
 
-                                                        <p className="text-sm text-on-surface-variant">
+                                                        <p className="text-xs text-primary-container/80">
                                                             {item.flavor} • {item.size}
                                                         </p>
 
-                                                        <p className="text-secondary-fixed font-bold">
-                                                            Rp {item.price.toLocaleString('id-ID')}
+                                                        <p className="text-on-error font-semibold">
+                                                            Rp {''}
+                                                            {(item.price * item.quantity).toLocaleString('id-ID')}
                                                         </p>
                                                     </div>
                                                 </div>
