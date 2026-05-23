@@ -26,7 +26,7 @@ export default function Cart() {
     const [loading, setLoading] = useState(true);
 
     // ambil userId (contoh dari localStorage / auth context)
-    const userId = localStorage.getItem('userId');
+    // const userId = localStorage.getItem('userId');
 
     useEffect(() => {
         async function fetchCart() {
@@ -40,8 +40,8 @@ export default function Cart() {
             }
         }
 
-        if (userId) fetchCart();
-    }, [userId]);
+        fetchCart();
+    }, []);
 
     // update qty
     function updateQty(id: string, quantity: number) {
