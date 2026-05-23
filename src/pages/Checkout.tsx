@@ -68,7 +68,7 @@ export default function Checkout() {
 
                 setShippingFill({
                     fullname: data.user.name,
-                    phone: data.user.phone,
+                    phone: data.user.number,
                     postalCode: '',
                     address: data.user.address,
                 })
