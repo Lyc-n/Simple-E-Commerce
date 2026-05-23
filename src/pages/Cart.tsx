@@ -31,7 +31,7 @@ export default function Cart() {
     useEffect(() => {
         async function fetchCart() {
             try {
-                const res = await api.get(`/api/cart/${userId}`);
+                const res = await api.get(`/api/cart`);
                 setCart(res.data.items);
             } catch (err) {
                 console.error(err);

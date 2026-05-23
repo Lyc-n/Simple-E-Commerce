@@ -135,18 +135,19 @@ export default function Shop() {
     }
 
     async function handleAddToCart(variantSizeId: string) {
-        const userId = localStorage.getItem('userId');
-
-        if (!userId) return alert('Login dulu');
-
         try {
             await api.post('/api/cart', {
-                userId,
                 variantSizeId,
                 quantity: 1,
             });
-        } catch (err) {
+
+            alert('Berhasil ditambahkan ke cart');
+        } catch (err: any) {
             console.error(err);
+
+            if (err.response?.status === 401) {
+                alert('Login dulu');
+            }
         }
     }
 
