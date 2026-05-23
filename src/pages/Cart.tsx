@@ -184,7 +184,7 @@ export default function Cart() {
                                     </span>
                                 </div>
 
-                                <div className="flex justify-between pb-1 border-white/10 border-dashed">
+                                <div className="flex justify-between pb-2 border-white/20 border-dashed">
                                     <span>Shipping</span>
                                     <span>Calculated at checkout</span>
                                 </div>
@@ -196,7 +196,9 @@ export default function Cart() {
                                                 {order.productName}
                                             </p>
                                             <div className="flex items-center gap-0.5">
-                                                {order.quantity}
+                                                <p className='text-xs'>
+                                                    {order.quantity}
+                                                </p>
                                                 <XIcon size={12} />
                                             </div>
                                         </div>

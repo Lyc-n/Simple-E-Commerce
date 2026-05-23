@@ -401,7 +401,7 @@ export default function Checkout() {
                                                     />
 
                                                     <div>
-                                                        <h3 className='text-on-error'>
+                                                        <h3 className='text-on-error text-sm'>
                                                             {item.productName}
                                                         </h3>
 
@@ -409,7 +409,7 @@ export default function Checkout() {
                                                             {item.flavor} • {item.size}
                                                         </p>
 
-                                                        <p className="text-on-error font-semibold">
+                                                        <p className="text-on-error font-semibold text-sm">
                                                             Rp {''}
                                                             {(item.price * item.quantity).toLocaleString('id-ID')}
                                                         </p>
@@ -417,8 +417,8 @@ export default function Checkout() {
                                                 </div>
 
                                                 {/* QTY */}
-                                                <div className="flex items-center text-on-error gap-0.5">
-                                                    <span className="w-6 text-center">
+                                                <div className="flex flex-row-reverse w-full items-center text-on-error gap-0.5">
+                                                    <span className="text-center">
                                                         {item.quantity}
                                                     </span>
                                                     <XIcon size={12} className='text-on-error' />
