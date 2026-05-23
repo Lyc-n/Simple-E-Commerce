@@ -12,35 +12,27 @@ import {
 
 type CartItem = {
     id: string;
-    productId: string;
-    name: string;
+    productName: string;
     imageUrl: string;
-    size: string;
     flavor: string;
+    size: string;
     price: number;
-    qty: number;
+    quantity: number;
+    subtotal: number;
 };
 
 export default function Cart() {
     const [cart, setCart] = useState<CartItem[]>([]);
     const [loading, setLoading] = useState(true);
 
+    // ambil userId (contoh dari localStorage / auth context)
+    const userId = localStorage.getItem('userId');
+
     useEffect(() => {
         async function fetchCart() {
             try {
-                const res = await api.get('/api/cart');
-                setCart(
-                    res.data.map((item: any) => ({
-                        id: item.id,
-                        name: item.variantSize.variant.product.name,
-                        imageUrl: item.variantSize.variant.product.imageUrl,
-                        flavor: item.variantSize.variant.flavor,
-                        size: item.variantSize.size,
-                        price: item.variantSize.price,
-                        qty: item.quantity,
-                        productId: item.variantSize.variant.product.id,
-                    }))
-                );
+                const res = await api.get(`/api/cart/${userId}`);
+                setCart(res.data.items);
             } catch (err) {
                 console.error(err);
             } finally {
@@ -48,20 +40,20 @@ export default function Cart() {
             }
         }
 
-        fetchCart();
-    }, []);
+        if (userId) fetchCart();
+    }, [userId]);
 
-    // update qty (frontend optimistic update)
-    function updateQty(id: string, qty: number) {
-        if (qty < 1) return;
+    // update qty
+    function updateQty(id: string, quantity: number) {
+        if (quantity < 1) return;
 
         setCart((prev) =>
             prev.map((item) =>
-                item.id === id ? { ...item, qty } : item
+                item.id === id ? { ...item, quantity } : item
             )
         );
 
-        api.patch(`/api/cart/${id}`, { qty }).catch(console.error);
+        api.patch(`/api/cart/${id}`, { quantity }).catch(console.error);
     }
 
     // remove item
@@ -71,10 +63,10 @@ export default function Cart() {
         api.delete(`/api/cart/${id}`).catch(console.error);
     }
 
-    // subtotal
+    // subtotal (client-safe fallback)
     const subtotal = useMemo(() => {
         return cart.reduce((acc, item) => {
-            return acc + item.price * item.qty;
+            return acc + item.price * item.quantity;
         }, 0);
     }, [cart]);
 
@@ -83,6 +75,7 @@ export default function Cart() {
             <Navbar />
 
             <main className="max-w-container-max mx-auto px-margin-mobile md:px-gutter py-section-gap">
+
                 {/* HEADER */}
                 <section className="mb-10">
                     <h1 className="text-headline-lg font-headline-lg text-white uppercase mb-2">
@@ -95,8 +88,10 @@ export default function Cart() {
 
                 {/* CONTENT */}
                 <section className="grid grid-cols-1 lg:grid-cols-12 gap-section-gap">
-                    {/* LEFT - CART ITEMS */}
+
+                    {/* LEFT */}
                     <div className="lg:col-span-8 space-y-4">
+
                         {loading ? (
                             <p className="text-on-surface-variant">
                                 Loading cart...
@@ -113,7 +108,8 @@ export default function Cart() {
                                     key={item.id}
                                     className="flex items-center justify-between bg-surface-container-low p-gutter rounded-lg border border-white/5"
                                 >
-                                    {/* product info */}
+
+                                    {/* PRODUCT */}
                                     <div className="flex items-center gap-4">
                                         <img
                                             src={item.imageUrl}
@@ -122,7 +118,7 @@ export default function Cart() {
 
                                         <div>
                                             <h3 className="font-bold text-white">
-                                                {item.name}
+                                                {item.productName}
                                             </h3>
 
                                             <p className="text-sm text-on-surface-variant">
@@ -130,17 +126,16 @@ export default function Cart() {
                                             </p>
 
                                             <p className="text-secondary-fixed font-bold">
-                                                Rp{' '}
-                                                {item.price.toLocaleString('id-ID')}
+                                                Rp {item.price.toLocaleString('id-ID')}
                                             </p>
                                         </div>
                                     </div>
 
-                                    {/* qty control */}
+                                    {/* QTY */}
                                     <div className="flex items-center gap-3">
                                         <button
                                             onClick={() =>
-                                                updateQty(item.id, item.qty - 1)
+                                                updateQty(item.id, item.quantity - 1)
                                             }
                                             className="p-2 bg-surface-container-high rounded hover:bg-primary transition"
                                         >
@@ -148,12 +143,12 @@ export default function Cart() {
                                         </button>
 
                                         <span className="w-6 text-center">
-                                            {item.qty}
+                                            {item.quantity}
                                         </span>
 
                                         <button
                                             onClick={() =>
-                                                updateQty(item.id, item.qty + 1)
+                                                updateQty(item.id, item.quantity + 1)
                                             }
                                             className="p-2 bg-surface-container-high rounded hover:bg-primary transition"
                                         >
@@ -161,26 +156,29 @@ export default function Cart() {
                                         </button>
                                     </div>
 
-                                    {/* remove */}
+                                    {/* DELETE */}
                                     <button
                                         onClick={() => removeItem(item.id)}
                                         className="ml-4 text-red-400 hover:text-red-300"
                                     >
                                         <TrashIcon size={20} />
                                     </button>
+
                                 </div>
                             ))
                         )}
                     </div>
 
-                    {/* RIGHT - SUMMARY */}
+                    {/* RIGHT */}
                     <div className="lg:col-span-4">
                         <div className="sticky top-28 bg-surface-container-highest p-gutter rounded-lg border border-primary">
+
                             <h2 className="text-headline-md font-headline-md text-white mb-4 uppercase">
                                 Summary
                             </h2>
 
                             <div className="space-y-3 text-on-surface-variant">
+
                                 <div className="flex justify-between">
                                     <span>Subtotal</span>
                                     <span>
@@ -199,6 +197,7 @@ export default function Cart() {
                                         Rp {subtotal.toLocaleString('id-ID')}
                                     </span>
                                 </div>
+
                             </div>
 
                             <button
@@ -209,8 +208,10 @@ export default function Cart() {
                                 Checkout
                                 <ArrowRightIcon size={18} />
                             </button>
+
                         </div>
                     </div>
+
                 </section>
             </main>
 
