@@ -135,6 +135,10 @@ export default function Shop() {
     }
 
     async function handleAddToCart(variantSizeId: string) {
+        if (!variantSizeId) {
+            alert('Variant size tidak ditemukan');
+            return;
+        }
         try {
             await api.post('/api/cart', {
                 variantSizeId,
@@ -241,7 +245,14 @@ export default function Shop() {
                                     title={product.name}
                                     description={product.description}
                                     price={selectedSize?.price || 0}
-                                    addToCart={() => handleAddToCart(selectedSize?.id || '')}
+                                    addToCart={() => {
+                                        console.log({selectedSize});
+                                        if (!selectedSize) {
+                                            alert('Variant size tidak ditemukan');
+                                            return;
+                                        }
+                                        handleAddToCart(selectedSize?.id);
+                                    }}
                                 />
                             );
                         })
