@@ -1,24 +1,101 @@
 import { CaretLeftIcon, CaretRightIcon } from '@phosphor-icons/react';
+import { useEffect, useState } from 'react';
+import api from '../lib/api';
 import ButtonPrimer from '../components/ButtonPrimer';
 import Navbar from '../components/Navbar';
 import Card from '../components/Card';
 import Footer from '../components/Footer';
 
-import { cardData } from '../data/cardData';
-import { useState } from 'react';
+type ProductSize = {
+    id: string;
+    size: string;
+    price: number;
+    stock: number;
+};
+
+type ProductVariant = {
+    id: string;
+    name: string;
+    flavor: string;
+    sizes: ProductSize[];
+};
+
+type Product = {
+    id: string;
+    name: string;
+    slug: string;
+    description: string;
+    imageUrl: string;
+    tag: string;
+    tagColor: string;
+    variants: ProductVariant[];
+};
+
 
 export default function Home() {
+    const [products, setProducts] = useState<Product[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const previewProducts = products.slice(0, 8);
+
+    const carouselItems = [
+    ...previewProducts,
+    {
+        id: 'see-more',
+        isSeeMore: true,
+    },
+];
+
     const visibleCard = 4;
 
     function nextSlide() {
-        if (currentIndex + visibleCard < cardData.length) {
+        if (currentIndex + visibleCard < carouselItems.length) {
             setCurrentIndex((prev) => prev + 1);
         }
     }
     function prevSlide() {
         if (currentIndex > 0) {
             setCurrentIndex((prev) => prev - 1);
+        }
+    }
+
+    useEffect(() => {
+        async function fetchProducts() {
+            try {
+                const res = await api.get('/api/products');
+
+                setProducts(res.data.products);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        fetchProducts();
+    }, []);
+
+    function getCheapestSize(variant?: ProductVariant) {
+        if (!variant?.sizes?.length) return null;
+
+        return variant.sizes.reduce((prev, curr) =>
+            curr.price < prev.price ? curr : prev
+        );
+    }
+
+    async function handleAddToCart(variantSizeId?: string) {
+        if (!variantSizeId) {
+            alert('Variant tidak tersedia');
+            return;
+        }
+
+        try {
+            await api.post('/api/cart', {
+                variantSizeId,
+                quantity: 1,
+            });
+
+            alert('Berhasil ditambahkan ke cart');
+        } catch (err) {
+            console.error(err);
+            alert('Gagal tambah cart');
         }
     }
 
@@ -143,7 +220,7 @@ export default function Home() {
 
                                 <button
                                     onClick={nextSlide}
-                                    disabled={currentIndex === cardData.length}
+                                    disabled={currentIndex + visibleCard >= carouselItems.length}
                                     className="bg-surface-container hover:bg-primary transition-colors duration-200 hover:text-on-primary active:scale-98 p-2 rounded-full text-white disabled:opacity-40"
                                 >
                                     <CaretRightIcon size={24} />
@@ -160,21 +237,60 @@ export default function Home() {
                                     transform: `translateX(-${currentIndex * 25}%)`,
                                 }}
                             >
-                                {cardData.map((card, index) => (
-                                    <div
-                                        key={index}
-                                        className="min-w-full md:min-w-[calc(25%-1.5rem)]"
-                                    >
-                                        <Card
-                                            tag={card.tag}
-                                            colorTag={card.colorTag}
-                                            img={card.img}
-                                            title={card.title}
-                                            description={card.description}
-                                            price={card.price}
-                                        />
-                                    </div>
-                                ))}
+                                {carouselItems.map((item) => {
+                                    if ('isSeeMore' in item) {
+                                        return (
+                                            <div
+                                                key={item.id}
+                                                className="min-w-full md:min-w-[calc(25%-1.5rem)]"
+                                            >
+                                                <button
+                                                    onClick={() => {
+                                                        window.location.href = '/shop';
+                                                    }}
+                                                    className="w-full h-full min-h-125 bg-surface-container border-2 border-dashed border-primary rounded-xl flex flex-col items-center justify-center text-white hover:bg-primary-container transition-all group"
+                                                >
+                                                    <div className="text-5xl mb-4 group-hover:scale-110 transition-transform">
+                                                        →
+                                                    </div>
+
+                                                    <h3 className="text-2xl font-bold uppercase tracking-widest">
+                                                        See More
+                                                    </h3>
+
+                                                    <p className="text-on-surface-variant mt-2">
+                                                        Explore all products
+                                                    </p>
+                                                </button>
+                                            </div>
+                                        );
+                                    }
+
+                                    const product = item as Product;
+
+                                    const selectedVariant = product.variants?.[0];
+
+                                    const selectedSize = getCheapestSize(selectedVariant);
+
+                                    return (
+                                        <div
+                                            key={product.id}
+                                            className="min-w-full md:min-w-[calc(25%-1.5rem)]"
+                                        >
+                                            <Card
+                                                tag={selectedVariant?.flavor || 'Original'}
+                                                colorTag={product.tagColor}
+                                                img={product.imageUrl}
+                                                title={product.name}
+                                                description={product.description}
+                                                price={selectedSize?.price || 0}
+                                                addToCart={() =>
+                                                    handleAddToCart(selectedSize?.id)
+                                                }
+                                            />
+                                        </div>
+                                    );
+                                })}
                             </div>
                         </div>
                         {/* card show */}
