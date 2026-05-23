@@ -20,6 +20,7 @@ const App = () => {
                     <ProtectedRoute>
                         <Checkout />
                     </ProtectedRoute>
+                    // <Checkout />
                 }
             />
             <Route
