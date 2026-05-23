@@ -417,7 +417,7 @@ export default function Checkout() {
                                                 </div>
 
                                                 {/* QTY */}
-                                                <div className="flex flex-row-reverse w-full items-center text-on-error gap-0.5">
+                                                <div className="flex flex-row-reverse pr-2 items-center text-on-error gap-0.5">
                                                     <span className="text-center">
                                                         {item.quantity}
                                                     </span>

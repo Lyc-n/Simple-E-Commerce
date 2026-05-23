@@ -128,40 +128,40 @@ export default function Cart() {
                                             </p>
                                         </div>
                                     </div>
+                                    <div className="flex">
+                                        {/* QTY */}
+                                        <div className="flex items-center gap-3">
+                                            <button
+                                                onClick={() =>
+                                                    updateQty(item.id, item.quantity - 1)
+                                                }
+                                                className="p-2 bg-surface-container-high rounded hover:bg-primary transition"
+                                            >
+                                                <MinusIcon size={16} />
+                                            </button>
 
-                                    {/* QTY */}
-                                    <div className="flex items-center gap-3">
+                                            <span className="w-6 text-center">
+                                                {item.quantity}
+                                            </span>
+
+                                            <button
+                                                onClick={() =>
+                                                    updateQty(item.id, item.quantity + 1)
+                                                }
+                                                className="p-2 bg-surface-container-high rounded hover:bg-primary transition"
+                                            >
+                                                <PlusIcon size={16} />
+                                            </button>
+                                        </div>
+
+                                        {/* DELETE */}
                                         <button
-                                            onClick={() =>
-                                                updateQty(item.id, item.quantity - 1)
-                                            }
-                                            className="p-2 bg-surface-container-high rounded hover:bg-primary transition"
+                                            onClick={() => removeItem(item.id)}
+                                            className="ml-4 text-red-400 hover:text-red-300"
                                         >
-                                            <MinusIcon size={16} />
-                                        </button>
-
-                                        <span className="w-6 text-center">
-                                            {item.quantity}
-                                        </span>
-
-                                        <button
-                                            onClick={() =>
-                                                updateQty(item.id, item.quantity + 1)
-                                            }
-                                            className="p-2 bg-surface-container-high rounded hover:bg-primary transition"
-                                        >
-                                            <PlusIcon size={16} />
+                                            <TrashIcon size={20} />
                                         </button>
                                     </div>
-
-                                    {/* DELETE */}
-                                    <button
-                                        onClick={() => removeItem(item.id)}
-                                        className="ml-4 text-red-400 hover:text-red-300"
-                                    >
-                                        <TrashIcon size={20} />
-                                    </button>
-
                                 </div>
                             ))
                         )}
@@ -184,13 +184,13 @@ export default function Cart() {
                                     </span>
                                 </div>
 
-                                <div className="flex justify-between pb-2 border-white/20 border-dashed">
+                                <div className="flex justify-between">
                                     <span>Shipping</span>
                                     <span>Calculated at checkout</span>
                                 </div>
 
                                 {cart.map((order)=>(
-                                    <div className="flex justify-between">
+                                    <div className="flex justify-between mt-2 pt-3 border-t border-white/10 border-dashed">
                                         <div className="flex flex-col gap-0.5">
                                             <p className='text-xs text-primary'>
                                                 {order.productName}
@@ -220,7 +220,7 @@ export default function Cart() {
 
                             <button
                                 disabled={cart.length === 0}
-                                className="w-full mt-6 bg-primary-container text-white py-3 rounded font-bold uppercase tracking-widest flex items-center justify-center gap-2 hover:scale-105 active:scale-95 transition disabled:opacity-40"
+                                className="w-full mt-6 bg-primary-container text-white py-3 rounded font-bold uppercase tracking-widest flex items-center justify-center gap-2 hover:scale-102 active:scale-98 transition disabled:opacity-40"
                                 onClick={() => (window.location.href = '/checkout')}
                             >
                                 Checkout
