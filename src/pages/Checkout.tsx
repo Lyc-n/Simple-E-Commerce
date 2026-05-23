@@ -12,6 +12,7 @@ import {
     SpinnerGapIcon,
     TruckIcon,
     WalletIcon,
+    XIcon,
 } from '@phosphor-icons/react';
 import { getMe } from '../services/authService';
 import api from '../lib/api';
@@ -389,7 +390,7 @@ export default function Checkout() {
                                         cart.map((item) => (
                                             <div
                                                 key={item.id}
-                                                className="flex items-center justify-between bg-secondary p-2 rounded-lg"
+                                                className="flex items-center justify-between bg-secondary px-2 rounded-lg"
                                             >
 
                                                 {/* PRODUCT */}
@@ -400,7 +401,7 @@ export default function Checkout() {
                                                     />
 
                                                     <div>
-                                                        <h3>
+                                                        <h3 className='text-on-error'>
                                                             {item.productName}
                                                         </h3>
 
@@ -416,10 +417,11 @@ export default function Checkout() {
                                                 </div>
 
                                                 {/* QTY */}
-                                                <div className="flex items-center gap-3">
+                                                <div className="flex items-center text-on-error gap-0.5">
                                                     <span className="w-6 text-center">
                                                         {item.quantity}
                                                     </span>
+                                                    <XIcon size={12} className='text-on-error' />
                                                 </div>
                                             </div>
                                         ))

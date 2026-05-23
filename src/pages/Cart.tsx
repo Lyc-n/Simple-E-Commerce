@@ -191,11 +191,14 @@ export default function Cart() {
 
                                 {cart.map((order)=>(
                                     <div className="flex justify-between">
-                                        <div className="flex items-center gap-1.5">
+                                        <div className="flex flex-col gap-0.5">
                                             <p className='text-xs text-primary'>
                                                 {order.productName}
                                             </p>
-                                            <XIcon size={12} />
+                                            <div className="flex items-center gap-0.5">
+                                                {order.quantity}
+                                                <XIcon size={12} />
+                                            </div>
                                         </div>
                                         <p className="text-xs text-primary">
                                             Rp {''}
