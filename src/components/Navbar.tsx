@@ -40,7 +40,7 @@ export default function Navbar() {
                 </div>
                 <div className="flex items-center gap-4">
                     <NavLink
-                        to="/checkout"
+                        to="/cart"
                         className={({ isActive }) =>
                             `inline-block cursor-pointer transition-all duration-150 hover:text-primary active:scale-95 ${
                                 isActive ? 'text-primary' : 'text-on-surface'

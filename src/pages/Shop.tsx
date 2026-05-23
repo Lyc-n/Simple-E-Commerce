@@ -220,7 +220,7 @@ export default function Shop() {
                         <button
                             onClick={prevPage}
                             disabled={currentPage === 1}
-                            className="bg-surface-container hover:bg-primary transition-colors duration-200 hover:text-on-primary active:scale-95 p-3 rounded-full text-white disabled:opacity-40 disabled:cursor-not-allowed"
+                            className="bg-surface-container hover:bg-emerald-400 transition-colors duration-200 hover:text-on-primary active:scale-95 p-3 rounded-full text-white disabled:opacity-40 disabled:cursor-not-allowed"
                         >
                             <CaretLeftIcon size={22} />
                         </button>
