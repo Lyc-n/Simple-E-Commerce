@@ -7,6 +7,8 @@ import Auth from './pages/Auth';
 import Checkout from './pages/Checkout';
 import Profile from './pages/Profile';
 import Cart from './pages/Cart';
+import Flavors from './pages/Flavors';
+import Story from './pages/Story';
 
 const App = () => {
     return (
@@ -33,6 +35,8 @@ const App = () => {
             />
 
             <Route path="/authentication" element={<Auth />} />
+            <Route path="/flavors" element={<Flavors />} />
+            <Route path="/story" element={<Story />} />
             <Route path="*" element={<NotFound />} />
         </Routes>
     );
