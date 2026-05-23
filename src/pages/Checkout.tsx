@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { loadSnapScript, createTransaction } from '../services/midtrans';
@@ -39,7 +39,11 @@ export default function Checkout() {
         postalCode: '',
         address: '',
     });
-    const subtotal = 55500;
+    const subtotal = useMemo(() => {
+        return cart.reduce((acc, item) => {
+            return acc + item.price * item.quantity;
+        }, 0);
+    }, [cart]);
 
     const [courier, setCourier] = useState<CourierType>('jne');
     const [payment, setPayment] = useState<PaymentType>('gopay');
@@ -63,10 +67,10 @@ export default function Checkout() {
                 const data = await getMe();
 
                 setShippingFill({
-                    fullname: data.name,
-                    phone: data.phone,
+                    fullname: data.user.name,
+                    phone: data.user.phone,
                     postalCode: '',
-                    address: data.address,
+                    address: data.user.address,
                 })
             }catch (error) {
                 console.error('Gagal mengambil data pengguna:', error);
@@ -157,27 +161,29 @@ export default function Checkout() {
                             >
                                 <div className="md:col-span-2">
                                     <label className="block text-lg tracking-wider font-label-bold uppercase text-on-surface-variant mb-2">
-                                        {shippingFill.fullname}
+                                        Full Name
                                     </label>
                                     <input
                                         className="w-full bg-surface-container-highest border-2 border-white/20 py-2 px-4 focus:border-secondary-fixed focus:ring-0 text-on-surface rounded transition-all"
                                         placeholder="Enter recipient name"
                                         type="text"
+                                        value={shippingFill.fullname}
                                     />
                                 </div>
                                 <div>
                                     <label className="block text-lg tracking-wider font-label-bold uppercase text-on-surface-variant mb-2">
-                                        {shippingFill.phone}
+                                        Number Phone
                                     </label>
                                     <input
                                         className="w-full bg-surface-container-highest border-2 border-white/20 py-2 px-4 focus:border-secondary-fixed focus:ring-0 text-on-surface rounded transition-all"
                                         placeholder="+62 812..."
                                         type="tel"
+                                        value={shippingFill.phone}
                                     />
                                 </div>
                                 <div>
                                     <label className="block text-lg tracking-wider font-label-bold uppercase text-on-surface-variant mb-2">
-                                        {shippingFill.postalCode}
+                                        Postal Code
                                     </label>
                                     <input
                                         className="w-full bg-surface-container-highest border-2 border-white/20 py-2 px-4 focus:border-secondary-fixed focus:ring-0 text-on-surface rounded transition-all"
@@ -187,12 +193,13 @@ export default function Checkout() {
                                 </div>
                                 <div className="md:col-span-2">
                                     <label className="block text-lg tracking-wider font-label-bold uppercase text-on-surface-variant mb-2">
-                                        {shippingFill.address}
+                                        Address
                                     </label>
                                     <textarea
                                         className="w-full bg-surface-container-highest border-2 border-white/20 py-2 px-4 focus:border-secondary-fixed focus:ring-0 text-on-surface rounded transition-all"
                                         placeholder="Building, Street, Unit number..."
                                         rows={3}
+                                        value={shippingFill.address}
                                     ></textarea>
                                 </div>
                             </form>
@@ -400,7 +407,7 @@ export default function Checkout() {
                                                         className="w-12 h-12 object-cover rounded border border-error-container/10"
                                                     />
 
-                                                    <div>
+                                                    <div className='py-1.5'>
                                                         <h3 className='text-on-error text-sm'>
                                                             {item.productName}
                                                         </h3>
