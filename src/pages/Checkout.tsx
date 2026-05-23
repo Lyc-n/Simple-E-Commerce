@@ -13,11 +13,31 @@ import {
     TruckIcon,
     WalletIcon,
 } from '@phosphor-icons/react';
+import { getMe } from '../services/authService';
+import api from '../lib/api';
 
 type CourierType = 'jne' | 'sicepat' | 'gosend';
 type PaymentType = 'gopay' | 'va';
+type CartItem = {
+    id: string;
+    productName: string;
+    imageUrl: string;
+    flavor: string;
+    size: string;
+    price: number;
+    quantity: number;
+    subtotal: number;
+};
 
 export default function Checkout() {
+    const [cart, setCart] = useState<CartItem[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [shippingFill, setShippingFill] = useState({
+        fullname: '',
+        phone: '',
+        postalCode: '',
+        address: '',
+    });
     const subtotal = 55500;
 
     const [courier, setCourier] = useState<CourierType>('jne');
@@ -26,9 +46,7 @@ export default function Checkout() {
     const [isProcessing, setIsProcessing] = useState<boolean>(false);
     const [showReceipt, setShowReceipt] = useState<boolean>(false);
 
-    const [paymentStatus, setPaymentStatus] = useState<'success' | 'pending' | 'error' | null>(
-        null
-    );
+    const [paymentStatus, setPaymentStatus] = useState<'success' | 'pending' | 'error' | null>(null);
     const [orderId, setOrderId] = useState<string>('');
 
     // Efek perubahan kurir untuk memperbarui ongkir
@@ -37,6 +55,38 @@ export default function Checkout() {
         if (courier === 'sicepat') setShippingCost(9000);
         if (courier === 'gosend') setShippingCost(25000);
     }, [courier]);
+
+    useEffect(() => {
+        async function fetchShipping() {
+            try {
+                const data = await getMe();
+
+                setShippingFill({
+                    fullname: data.name,
+                    phone: data.phone,
+                    postalCode: '',
+                    address: data.address,
+                })
+            }catch (error) {
+                console.error('Gagal mengambil data pengguna:', error);
+            }
+        }
+        fetchShipping();
+    }, []);
+
+    useEffect(() => {
+        async function fetchCart() {
+            try {
+                const res = await api.get(`/api/cart`);
+                setCart(res.data.items);
+            } catch (err) {
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchCart();
+    }, []);
 
     // Simulasi Proses Pembayaran
     const handleProcessPayment = async () => {
@@ -106,7 +156,7 @@ export default function Checkout() {
                             >
                                 <div className="md:col-span-2">
                                     <label className="block text-lg tracking-wider font-label-bold uppercase text-on-surface-variant mb-2">
-                                        Full Name
+                                        {shippingFill.fullname}
                                     </label>
                                     <input
                                         className="w-full bg-surface-container-highest border-2 border-white/20 py-2 px-4 focus:border-secondary-fixed focus:ring-0 text-on-surface rounded transition-all"
@@ -116,7 +166,7 @@ export default function Checkout() {
                                 </div>
                                 <div>
                                     <label className="block text-lg tracking-wider font-label-bold uppercase text-on-surface-variant mb-2">
-                                        Phone Number
+                                        {shippingFill.phone}
                                     </label>
                                     <input
                                         className="w-full bg-surface-container-highest border-2 border-white/20 py-2 px-4 focus:border-secondary-fixed focus:ring-0 text-on-surface rounded transition-all"
@@ -126,7 +176,7 @@ export default function Checkout() {
                                 </div>
                                 <div>
                                     <label className="block text-lg tracking-wider font-label-bold uppercase text-on-surface-variant mb-2">
-                                        Postal Code
+                                        {shippingFill.postalCode}
                                     </label>
                                     <input
                                         className="w-full bg-surface-container-highest border-2 border-white/20 py-2 px-4 focus:border-secondary-fixed focus:ring-0 text-on-surface rounded transition-all"
@@ -136,7 +186,7 @@ export default function Checkout() {
                                 </div>
                                 <div className="md:col-span-2">
                                     <label className="block text-lg tracking-wider font-label-bold uppercase text-on-surface-variant mb-2">
-                                        Detailed Address
+                                        {shippingFill.address}
                                     </label>
                                     <textarea
                                         className="w-full bg-surface-container-highest border-2 border-white/20 py-2 px-4 focus:border-secondary-fixed focus:ring-0 text-on-surface rounded transition-all"
@@ -325,45 +375,54 @@ export default function Checkout() {
                                 </h3>
 
                                 <div className="space-y-4 mb-section-gap">
-                                    <div className="flex justify-between items-center">
-                                        <div className="flex items-center gap-4">
-                                            <div className="w-12 h-12 bg-surface rounded p-1 border border-white/10">
-                                                <img
-                                                    className="w-full h-full object-cover"
-                                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRT_xqwDOtRuFQfdtgDCVBVp_V-ZruudJ3e1mkJ6vaz_1I4zbiUjIbYBh8HRb2QL_6XP_tl4aVTDp-sIIQd32L8Q6ZcWmxPt0q1GSANDEw9EmB1JhUtMP9SE0idFP__o7-OUFHvuCXOI0EE5o-Vbyzu3T8v5gRG0FapupdtDymTLsJhaje80uJILgilXAe5dZRmX_bPWectVcLXWDPA4B-yRER2xWLg-hahZiu3KoP-EvqX7u75QaIjL21QxznlMlp48yscV1gVAI"
-                                                    alt="Chitato Beef BBQ"
-                                                />
-                                            </div>
-                                            <div>
-                                                <p className="font-bold">Chitato Beef BBQ (x3)</p>
-                                                <p className="text-sm text-on-surface-variant">
-                                                    Large 120g
-                                                </p>
-                                            </div>
+                                    {loading ? (
+                                        <p className="text-on-surface-variant">
+                                            Loading items...
+                                        </p>
+                                    ) : cart.length === 0 ? (
+                                        <div className="bg-surface-container-low p-gutter rounded-lg border border-white/5">
+                                            <p className="text-on-surface-variant">
+                                                Your order is empty.
+                                            </p>
                                         </div>
-                                        <span className="font-bold">Rp 45.000</span>
-                                    </div>
+                                    ) : (
+                                        cart.map((item) => (
+                                            <div
+                                                key={item.id}
+                                                className="flex items-center justify-between bg-surface-container-low p-gutter rounded-lg border border-white/5"
+                                            >
 
-                                    <div className="flex justify-between items-center">
-                                        <div className="flex items-center gap-4">
-                                            <div className="w-12 h-12 bg-surface rounded p-1 border border-white/10">
-                                                <img
-                                                    className="w-full h-full object-cover"
-                                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWbjUf3wVFawX3G3y97REO2fJjGcD7KqmqYXCTOmb4VZo5ZYR5btLreUOPgDG_e0ugvvwMs4CmPYklr6DwE0xeFJNOXwpqxdLjOSHx3R8DHK9pUjCXvA1kX0JM_ltSQtN9zqDluXU1_97wGT7KhIgMDOgIaz7OW_B8JZdGGYL8lwUWjdfKCnVyBLoIpCT4_UdtZ4fkA7Se68uZQeQhn3UHxZboUxJPGLJskRwowayEe8jt9YFLpiOGqvLW9rr_xSIBkhLSy9bfif0"
-                                                    alt="Chitato Lite Sea Salt"
-                                                />
+                                                {/* PRODUCT */}
+                                                <div className="flex items-center gap-4">
+                                                    <img
+                                                        src={item.imageUrl}
+                                                        className="w-16 h-16 object-cover rounded border border-white/10"
+                                                    />
+
+                                                    <div>
+                                                        <h3 className="font-bold text-white">
+                                                            {item.productName}
+                                                        </h3>
+
+                                                        <p className="text-sm text-on-surface-variant">
+                                                            {item.flavor} • {item.size}
+                                                        </p>
+
+                                                        <p className="text-secondary-fixed font-bold">
+                                                            Rp {item.price.toLocaleString('id-ID')}
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                {/* QTY */}
+                                                <div className="flex items-center gap-3">
+                                                    <span className="w-6 text-center">
+                                                        {item.quantity}
+                                                    </span>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <p className="font-bold">
-                                                    Chitato Lite Sea Salt (x1)
-                                                </p>
-                                                <p className="text-sm text-on-surface-variant">
-                                                    Regular 68g
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <span className="font-bold">Rp 10.500</span>
-                                    </div>
+                                        ))
+                                    )}
                                 </div>
 
                                 <div className="space-y-2 pt-gutter border-t-2 border-dashed border-primary/30">

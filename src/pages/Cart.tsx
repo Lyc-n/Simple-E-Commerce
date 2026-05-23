@@ -25,9 +25,6 @@ export default function Cart() {
     const [cart, setCart] = useState<CartItem[]>([]);
     const [loading, setLoading] = useState(true);
 
-    // ambil userId (contoh dari localStorage / auth context)
-    // const userId = localStorage.getItem('userId');
-
     useEffect(() => {
         async function fetchCart() {
             try {
