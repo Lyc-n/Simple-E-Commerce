@@ -8,7 +8,7 @@ export default function Story() {
             
             <Navbar />
             
-            <main className="flex-grow">
+            <main className="grow">
                 {/* Cinematic Hero Header */}
                 <section className="relative h-[60vh] flex items-center justify-center overflow-hidden border-b-4 border-primary/20">
                     <div className="absolute inset-0 z-0">
@@ -17,7 +17,7 @@ export default function Story() {
                             alt="Cinematic dark background"
                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDtW-ggoq3Q0-2T9UcWMUq8vaTU8W-0qlQOLcilVXuJJftUGDRLCTNxDi543qPFje7N6xjWopRN4-GDbucGYlTyinRYBrpHyAu7_NZ3zUplDBG8iS90tnZAzRjk_bkioBL7GHiVRNTx_WhAAqkEbl1gssRP9s2Akngv34_9rfKcRLxzVaFMFfYO8ZomZ4jLfAfD3Qv-vC9v2Apm4nR-aj30UCw8vEg5lN31Umv4ecJsJAfuwkxpg_d8KyHvWwdMgndsY3n3GWWL6k"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent"></div>
+                        <div className="absolute inset-0 bg-linear-to-t from-background via-background/80 to-transparent"></div>
                     </div>
                     
                     <div className="relative z-10 text-center px-6">
@@ -48,7 +48,7 @@ export default function Story() {
                             </p>
                         </div>
                         <div className="bg-surface-container-lowest border-2 border-white/5 rounded-2xl overflow-hidden h-96 flex items-center justify-center p-8 shadow-2xl relative group">
-                            <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent z-10"></div>
+                            <div className="absolute inset-0 bg-linear-to-tr from-primary/10 to-transparent z-10"></div>
                             <img 
                                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNQF6nyZbzaebio5ep2sN_ti1qBEM2Nj-PmxmguAReSQfpQR7Hy0yN5dlmAdp1bnp_JaGNgzkbI4uO093gjnPuESn_yrRnDDOmep5VaHJa9IPdR4uQ5U-SrYM-bSVxqkM9jcTaMJ6uJ7MAEmuXc36MyngJVLKZjYVMcvREmiZCZ-8K3NfouttYrI-y3e2aITkUM8PBVwxbf80K0LXeiywOFV3tJqloqNQ-YY7bYTlWNg7O5_dqXsThgLcPUcUGiVPcJ6byMR_6lx0" 
                                 alt="Golden Potatoes" 
@@ -60,7 +60,7 @@ export default function Story() {
                     {/* Story Block 2 (Reversed Layout) */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                         <div className="order-2 md:order-1 bg-surface-container-lowest border-2 border-white/5 rounded-2xl overflow-hidden h-96 shadow-2xl relative group">
-                            <div className="absolute inset-0 bg-gradient-to-tr from-secondary-fixed/10 to-transparent z-10"></div>
+                            <div className="absolute inset-0 bg-linear-to-tr from-secondary-fixed/10 to-transparent z-10"></div>
                             <img 
                                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJ7rs24REchzum0yp_E2Q_jeiD8z8Ibt_V3o0J5RvFgSygXtA7_d_ghH0LkNlB8JGAi9dbTU_fh_y-EVy5CsCq5hov7s_UW6ICFSIHEUhBds0ujLCAhTviqk_lJpwTBtfm0y82UXqK1tONITYH9138VZlz-PYocPfmV6UBWpAXcO9zDExAGWxPXLxYg9uPAyzTC1g15deJvzZ8a2Ak6n42-tMObw65SEQtUxhGaZXEvQHCw90w282qln7i1ddBarZCCZ1qw1ox9eI" 
                                 alt="Wavy cut engineering process" 

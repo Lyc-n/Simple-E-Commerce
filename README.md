@@ -1,73 +1,144 @@
-# React + TypeScript + Vite
+# Simple E-Commerce Web App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Proyek ini merupakan tugas kuliah berupa pengembangan aplikasi web e-commerce sederhana menggunakan teknologi modern berbasis JavaScript.  
+Aplikasi ini memiliki fitur autentikasi pengguna, katalog produk, keranjang belanja, checkout, hingga integrasi pembayaran menggunakan Midtrans.
 
-Currently, two official plugins are available:
+#
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### Tujuan Project
 
-## React Compiler
+Project ini dibuat untuk:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Memenuhi Tugas Mata Kuliah Kewirausahaan
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+# Tech Stack
 
-```js
-export default defineConfig([
-    globalIgnores(['dist']),
-    {
-        files: ['**/*.{ts,tsx}'],
-        extends: [
-            // Other configs...
+### Frontend
+- React + Vite
+- TypeScript
+- TailwindCSS
+- Axios
+- React Router DOM
+- Phosphor Icons
 
-            // Remove tseslint.configs.recommended and replace with this
-            tseslint.configs.recommendedTypeChecked,
-            // Alternatively, use this for stricter rules
-            tseslint.configs.strictTypeChecked,
-            // Optionally, add this for stylistic rules
-            tseslint.configs.stylisticTypeChecked,
+### Backend
+- Express.js
+- Prisma ORM
+- PostgreSQL
+- JWT Authentication
+- bcrypt
 
-            // Other configs...
-        ],
-        languageOptions: {
-            parserOptions: {
-                project: ['./tsconfig.node.json', './tsconfig.app.json'],
-                tsconfigRootDir: import.meta.dirname,
-            },
-            // other options...
-        },
-    },
-]);
+### Payment Gateway
+- Midtrans Snap
+
+### Deployment
+- Frontend: Vercel
+- Backend: Vercel
+
+---
+
+# Fitur Utama
+
+### Authentication
+- Register akun
+- Login akun
+- Autentikasi JWT
+- Persist login menggunakan token
+
+### Product
+- Menampilkan daftar produk dari database
+- Filter produk berdasarkan flavor
+- Pagination produk
+- Product carousel pada homepage
+
+### Cart
+- Tambah produk ke cart
+- Update quantity cart
+- Hapus item cart
+- Menampilkan subtotal otomatis
+
+### Checkout
+- Ringkasan pesanan
+- Pemilihan metode pengiriman
+- Pemilihan metode pembayaran
+- Integrasi Midtrans Snap
+
+### Profile
+- Menampilkan data user
+- Edit data profil pengguna
+
+---
+
+# Instalasi Project
+
+### 1. Clone Repository
+
+```
+# frontend
+https://github.com/Lyc-n/Simple-E-Commerce.git
+
+# backend
+https://github.com/Lyc-n/Backend-Simple-E-Commerce.git
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Install Dependencies
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
+#### Frontend
 
-export default defineConfig([
-    globalIgnores(['dist']),
-    {
-        files: ['**/*.{ts,tsx}'],
-        extends: [
-            // Other configs...
-            // Enable lint rules for React
-            reactX.configs['recommended-typescript'],
-            // Enable lint rules for React DOM
-            reactDom.configs.recommended,
-        ],
-        languageOptions: {
-            parserOptions: {
-                project: ['./tsconfig.node.json', './tsconfig.app.json'],
-                tsconfigRootDir: import.meta.dirname,
-            },
-            // other options...
-        },
-    },
-]);
+```
+cd Simple-E-Commerce
+npm install
+```
+
+#### Backend
+
+```
+cd Backend-Simple-E-Commerce
+npm install
+```
+
+# Environment Variables
+
+### Frontend .env
+
+```
+VITE_API_BASE_URL=
+VITE_MIDTRANS_CLIENT_KEY=
+VITE_MIDTRANS_IS_PROD=
+```
+
+### Backend .env
+
+```
+PORT=
+FRONTEND_URL=
+NODE_ENV=development
+
+MIDTRANS_SERVER_KEY=
+MIDTRANS_IS_PROD=
+
+JWT_SECRET=
+PRISMA_DATABASE_URL=
+```
+
+# Prisma Migration
+
+```
+npx prisma migrate dev
+npx prisma generate
+```
+
+# Menjalankan Project
+
+### Backend
+
+```
+npm run dev
+```
+### Frontend
+
+```
+npm run dev
 ```

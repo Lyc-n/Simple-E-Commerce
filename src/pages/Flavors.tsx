@@ -99,7 +99,7 @@ export default function Flavors() {
                             </div>
 
                             {/* Text Content */}
-                            <div className="p-6 flex flex-col flex-grow bg-gradient-to-t from-surface-container-low to-transparent">
+                            <div className="p-6 flex flex-col grow bg-linear-to-t from-surface-container-low to-transparent">
                                 <h2 className="font-headline-lg text-2xl font-bold text-on-surface mb-1 uppercase">
                                     {flavor.name}
                                 </h2>
@@ -107,7 +107,7 @@ export default function Flavors() {
                                     {flavor.subtitle}
                                 </span>
                                 
-                                <p className="text-on-surface-variant text-sm flex-grow mb-6">
+                                <p className="text-on-surface-variant text-sm grow mb-6">
                                     {flavor.description}
                                 </p>
 
