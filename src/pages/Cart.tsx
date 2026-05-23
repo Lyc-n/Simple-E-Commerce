@@ -179,7 +179,7 @@ export default function Cart() {
                                 <div className="flex justify-between">
                                     <span>Subtotal</span>
                                     <span>
-                                        Rp {subtotal.toLocaleString('id-ID')}
+                                        Rp.{subtotal.toLocaleString('id-ID')}
                                     </span>
                                 </div>
 
@@ -187,6 +187,17 @@ export default function Cart() {
                                     <span>Shipping</span>
                                     <span>Calculated at checkout</span>
                                 </div>
+
+                                {cart.map((order)=>(
+                                    <div className="flex justify-between">
+                                        <p className='text-xs text-primary'>
+                                            {order.productName}
+                                        </p>
+                                        <p className="text-xs text-primary">
+                                            Rp.{order.price * order.quantity}
+                                        </p>
+                                    </div>
+                                ))}
 
                                 <div className="border-t border-white/10 pt-3 flex justify-between font-bold text-white">
                                     <span>Total</span>
